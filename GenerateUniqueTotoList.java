@@ -13,9 +13,9 @@ public class GenerateUniqueTotoList extends TotoPoint {
 
         List<List<Integer>> aList = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
-        List<Integer> a = new ArrayList<>(List.of(32, 17, 32, 27, 22, 9));
-        List<Integer> b = new ArrayList<>(List.of(32, 47, 37, 11, 12, 36));
-        List<Integer> c = new ArrayList<>(List.of(32, 36, 5, 34, 14, 46));
+        List<Integer> a = new ArrayList<>(List.of(32, 17, 12, 27, 22, 46));
+        List<Integer> b = new ArrayList<>(List.of(32, 47, 37, 17, 12, 36));
+        List<Integer> c = new ArrayList<>(List.of(32, 36, 22, 34, 17, 46));
 
 
         aList.add(a);
@@ -28,10 +28,9 @@ public class GenerateUniqueTotoList extends TotoPoint {
         for (List<Integer> e : aList) System.out.print(e + " ");
 
         //System.out.println(matchCheckers(aList, 32));
+
         System.out.println();
         System.out.println(generateUniqueList(aList));
-
-
     }
 
     // [32, 17, 32, 27, 22, 9] [34, 47, 37, 11, 12, 36] [32, 36, 5, 34, 14, 46] -> 11
@@ -78,27 +77,61 @@ public class GenerateUniqueTotoList extends TotoPoint {
 //        return list;
 //    }
 
-    // [32, 17, 32, 27, 22, 9]  [32, 47, 37, 11, 12, 36]  [32, 36, 5, 34, 14, 46]
-    //[[32, 17, 32, 27, 22, 9], [42, 40, 24, 32, 15, 31], [7, 48, 29, 13, 22, 13]]
+    // [32, 17, 12, 27, 22, 46]   [32, 47, 37, 17, 12, 36]  [32, 36, 22, 34, 17, 46]
+    //[[32, 17, 12, 27, 22, 46], [21, 47, 37, 17, 12, 36], [32, 36, 47, 34, 22, 46]]
 
     // Сравнява всеки елемент от 1-я масив със всеки елемент от 2-я - 3-я. В тази последователност.
     // Ако намери съвпадение генерира ново случайно число за този елемент.
+    public static List<List<Integer>> generateUniqueList1(List<List<Integer>> list) {
+        Random rnd = new Random();
+        int el1 = 0;
+
+        for (int i = 1; i < list.size(); i++) {
+            for (int j = 0, p = 0; j < list.get(0).size(); j++, p++) {
+                for (int d = 0; d < 6; d++) {
+
+                    el1 = list.get(0).get(p);
+                    int el2 = list.get(i).get(j);
+                    if (el1 == el2) {
+                        list.get(i).remove(j);
+                        list.get(i).add(j, rnd.nextInt(1, 50));
+                        el2 = list.get(i).get(j);
+                        for (int k = 0; k < list.get(i).size(); k++) {        // Търси дали новото се среща в j-я лист.
+                            int el3 = list.get(i).get(k);
+                            if (j != k && (Objects.equals(list.get(i).get(j), list.get(i).get(k)))) {
+                                list.get(i).remove(k);
+                                list.get(i).add(k, rnd.nextInt(1, 50));
+                                el3 = list.get(i).get(k);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
     public static List<List<Integer>> generateUniqueList(List<List<Integer>> list) {
         Random rnd = new Random();
-
         int el1 = 0;
+
         for (int i = 1; i < list.size(); i++) {
-            for (int j = 0; j < list.get(0).size(); j++) {
-                el1 = list.get(0).get(j);
-                int el2 = list.get(i).get(j);
-                if (el1 == el2) {
-                    list.get(i).remove(j);
-                    list.get(i).add(j, rnd.nextInt(1, 50));
-                    for (int k = 0; k < list.get(i).size(); k++) {          // Търси дали новото се среща в j-я лист.
-                        int el3 = list.get(i).get(k);
-                        if (j != k && (Objects.equals(list.get(i).get(j), list.get(i).get(k)))) {
-                            list.get(i).remove(j);
-                            list.get(i).add(j, rnd.nextInt(1, 50));
+            for (int j = 0, p = 0; j < list.get(0).size(); j++, p++) {
+                for (int d = 0; d < 6; d++) {
+
+                    el1 = list.get(0).get(p);
+                    int el2 = list.get(i).get(d);
+                    if (el1 == el2) {
+                        list.get(i).remove(d);
+                        list.get(i).add(d, rnd.nextInt(1, 50));
+                        el2 = list.get(i).get(d);
+                        for (int k = 0; k < list.get(i).size(); k++) {        // Търси дали новото се среща в j-я лист.
+                            int el3 = list.get(i).get(k);
+                            if (j != k && (Objects.equals(list.get(i).get(d), list.get(i).get(k)))) {
+                                list.get(i).remove(k);
+                                list.get(i).add(k, rnd.nextInt(1, 50));
+                                el3 = list.get(i).get(k);
+                            }
                         }
                     }
                 }
