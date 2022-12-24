@@ -189,19 +189,25 @@ public class TOTO extends TotoPoint {
 
     public static List<List<Integer>> generateUniqueList(List<List<Integer>> list) {
         Random rnd = new Random();
-
         int el1 = 0;
+
         for (int i = 1; i < list.size(); i++) {
-            for (int j = 0; j < list.get(0).size(); j++) {
-                el1 = list.get(0).get(j);
-                int el2 = list.get(0).get(j);
-                if (el1 == el2) {
-                    list.get(i).remove(j);
-                    list.get(i).add(j, rnd.nextInt(1, 50));
-                    for (int k = 0; k < list.get(i).size(); k++) {
-                        if (j != k && (el2 != list.get(i).get(j))) {
-                            list.get(i).remove(j);
-                            list.get(i).add(j, rnd.nextInt(1, 50));
+            for (int j = 0, p = 0; j < list.get(0).size(); j++, p++) {
+                for (int d = 0; d < 6; d++) {
+
+                    el1 = list.get(0).get(p);
+                    int el2 = list.get(i).get(d);
+                    if (el1 == el2) {
+                        list.get(i).remove(d);
+                        list.get(i).add(d, rnd.nextInt(1, 50));
+                        el2 = list.get(i).get(d);
+                        for (int k = 0; k < list.get(i).size(); k++) {        // Търси дали новото се среща в j-я лист.
+                            int el3 = list.get(i).get(k);
+                            if (d != k && (Objects.equals(list.get(i).get(d), list.get(i).get(k)))) {
+                                list.get(i).remove(k);
+                                list.get(i).add(k, rnd.nextInt(1, 50));
+                                el3 = list.get(i).get(k);
+                            }
                         }
                     }
                 }
