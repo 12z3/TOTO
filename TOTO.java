@@ -62,7 +62,7 @@ public class TOTO extends TotoPoint {
     }
 
     public void checkResult() {
-        printCheckedResult(cherResults(this.result, this.yourSuppose), this.counter);
+        printCheckedResult(checkResults(this.result, this.yourSuppose), this.counter);
     }
 
     public List<Integer> getResult() {
@@ -160,6 +160,8 @@ public class TOTO extends TotoPoint {
 
         System.out.printf("%s", "Вариантите са три: ");
         tmp = getFinalListOfNumbers();
+
+        // TODO: Има Още какво да се желае.
         this.variants = generateUniqueList(tmp);
 
         for (List<Integer> el : this.variants) {
@@ -216,7 +218,7 @@ public class TOTO extends TotoPoint {
     }
 
 
-    protected List<Integer> cherResults(List<Integer> result, List<Integer> suppose) {
+    protected List<Integer> checkResults(List<Integer> result, List<Integer> suppose) {
         Scanner scanner = new Scanner(System.in);
 
         //TODO: Валидирай Input!
