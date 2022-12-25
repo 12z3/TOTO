@@ -101,7 +101,7 @@ public class TOTO extends TotoPoint {
         }
 
         if (answer.equalsIgnoreCase("i")) {
-            System.out.printf("%s (%d-и) %s", "Въведе e резултата от последният", this.CIRCULATION, "тираж: ");
+            System.out.printf("%s (%d-и) %s", "Въведи резултата от последният", this.CIRCULATION, "тираж: ");
             input = scanner.nextLine().trim().split(", ");
             isIt = inputVerification(input);
         } else {
@@ -249,6 +249,8 @@ public class TOTO extends TotoPoint {
     protected List<Integer> checkResults(List<Integer> result, List<Integer> suppose) {
         String[] resInput;
         String[] suppInput;
+        boolean isIt;
+        boolean isItN;
         Scanner scanner = new Scanner(System.in);
 
         //TODO: Валидирай Input!
@@ -266,11 +268,27 @@ public class TOTO extends TotoPoint {
         if (answer.equalsIgnoreCase("i")) {
             System.out.print("Въведи последният резултат от тиража: ");
             resInput = scanner.nextLine().trim().split(", ");                       // 112, 12, aa,
-            //TODO: Трябва да валидираш въвеждания резултат
+            isIt = inputVerification(resInput);
+            while (!isIt){
+                System.out.print("ЗаПри се Вихъре. " +
+                        "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
+                        "\n" + "Дай пак: ");
+                resInput = scanner.nextLine().trim().split(", ");                       // 112, 12, aa,
+                isIt = inputVerification(resInput);
+            }
+
             result = getDigitFromInput(resInput);
 
             System.out.print("Въведи твоят залог: ");
             suppInput = scanner.nextLine().trim().split(", ");
+            isItN = inputVerification(suppInput);
+            while (!isItN){
+                System.out.print("ЗаПри се Вихъре. " +
+                        "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
+                        "\n" + "Дай пак: ");
+                suppInput = scanner.nextLine().trim().split(", ");
+                isItN = inputVerification(suppInput);
+            }
             suppose = getDigitFromInput(suppInput);
         } else {
             resInput = this.LAST_OFFICIAL_RESULT.trim().split(", ");
