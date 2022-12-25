@@ -82,7 +82,7 @@ public class TOTO extends TotoPoint {
 
     public List<Integer> setResult() {
         String[] input;
-        boolean isIt;
+        boolean verification;
 
         System.out.print("-> Валидни числа са всички положителни Двуцифрени (12) числа " +
                 "от 1 до 49 разделени с запетая и интервал (', ') - (6, 15, 18, 23, 25, 39). \n" +
@@ -103,18 +103,17 @@ public class TOTO extends TotoPoint {
         if (answer.equalsIgnoreCase("i")) {
             System.out.printf("%s (%d-и) %s", "Въведи резултата от последният", this.CIRCULATION, "тираж: ");
             input = scanner.nextLine().trim().split(", ");
-            isIt = inputVerification(input);
+            verification = inputVerification(input);
+            while (!verification) {
+                System.out.print("ЗаПри се Вихъре. " +
+                        "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
+                        "\n" + "Дай пак: ");
+                input = scanner.nextLine().trim().split(", ");
+                verification = inputVerification(input);
+            }
         } else {
             input = this.LAST_OFFICIAL_RESULT.trim().split(", ");
-            isIt = inputVerification(input);
-        }
-
-        while (!isIt) {
-            System.out.print("ЗаПри се Вихъре. " +
-                    "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
-                    "\n" + "Дай пак: ");
-            input = scanner.nextLine().trim().split(", ");
-            if (inputVerification(input)) isIt = true;
+            verification = inputVerification(input);
         }
         this.result = getDigitFromInput(input);
         return this.result;
@@ -129,14 +128,14 @@ public class TOTO extends TotoPoint {
     }
 
     private boolean inputVerification(String[] input) {
-        return isNotAString(input) && (input.length == 6);
+        return (input.length == 6) && isNotAString(input);
     }
 
     private boolean isNotAString(String[] input) {                       // alskjdlaks, sa - 22, a
         boolean isNotAString = true;                                     // 12, 7, re, 15, 34, -44
         for (int i = 0; i < input.length; i++) {                         // asd,as, 12, wewewew, -98, d
             if ((input[i].length() <= 2)) {                              // 12, 7, 13, 15, 34, 44
-                if (isADoubleDigits(input[i])) {                         // next: 2022 12 25 18 45
+                if (isDoubleDigits(input[i])) {                         // next: 2022 12 25 18 45
                     int el = Integer.parseInt(input[i]);
                     for (int j = 58; j <= 126; j++) {
                         if (el == j) {                               // TODO: Стопира ако намери буква в "el".
@@ -150,7 +149,7 @@ public class TOTO extends TotoPoint {
         return isNotAString;
     }
 
-    private boolean isADoubleDigits(String input) {                      // 12, ad
+    private boolean isDoubleDigits(String input) {                      // 12, ad
         int count = 0;
         for (int i = 0; i < input.length(); i++) {
             for (int j = 49; j <= 57; j++) {
@@ -249,8 +248,8 @@ public class TOTO extends TotoPoint {
     protected List<Integer> checkResults(List<Integer> result, List<Integer> suppose) {
         String[] resInput;
         String[] suppInput;
-        boolean isIt;
-        boolean isItN;
+        boolean verificationA;
+        boolean verificationB;
         Scanner scanner = new Scanner(System.in);
 
         //TODO: Валидирай Input!
@@ -268,26 +267,26 @@ public class TOTO extends TotoPoint {
         if (answer.equalsIgnoreCase("i")) {
             System.out.print("Въведи последният резултат от тиража: ");
             resInput = scanner.nextLine().trim().split(", ");                       // 112, 12, aa,
-            isIt = inputVerification(resInput);
-            while (!isIt){
+            verificationA = inputVerification(resInput);
+            while (!verificationA) {
                 System.out.print("ЗаПри се Вихъре. " +
                         "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
                         "\n" + "Дай пак: ");
                 resInput = scanner.nextLine().trim().split(", ");                       // 112, 12, aa,
-                isIt = inputVerification(resInput);
+                verificationA = inputVerification(resInput);
             }
 
             result = getDigitFromInput(resInput);
 
             System.out.print("Въведи твоят залог: ");
             suppInput = scanner.nextLine().trim().split(", ");
-            isItN = inputVerification(suppInput);
-            while (!isItN){
+            verificationB = inputVerification(suppInput);
+            while (!verificationB) {
                 System.out.print("ЗаПри се Вихъре. " +
                         "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
                         "\n" + "Дай пак: ");
                 suppInput = scanner.nextLine().trim().split(", ");
-                isItN = inputVerification(suppInput);
+                verificationB = inputVerification(suppInput);
             }
             suppose = getDigitFromInput(suppInput);
         } else {
