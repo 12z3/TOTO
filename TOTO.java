@@ -135,8 +135,8 @@ public class TOTO extends TotoPoint {
         boolean isNotAString = true;                                     // 12, 7, re, 15, 34, -44
         for (int i = 0; i < input.length; i++) {                         // asd,as, 12, wewewew, -98, d
             if ((input[i].length() <= 2)) {                              // 12, 7, 13, 15, 34, 44
-                if (isDoubleDigits(input[i])) {                         // next: 2022 12 25 18 45
-                    int el = Integer.parseInt(input[i]);
+                if (isDoubleDigits(input[i])) {    // Ако това не мине ще имаш Exception при Integer.parseInt(input[i]);
+                    int el = Integer.parseInt(input[i]);                 // next: 2022 12 25 18 45
                     for (int j = 58; j <= 126; j++) {
                         if (el == j) {                               // TODO: Стопира ако намери буква в "el".
                             isNotAString = false;                    //       Идеята е да не минава през целия цикъл
@@ -205,7 +205,6 @@ public class TOTO extends TotoPoint {
         Collections.sort(this.variantResult);
         System.out.println("Избрал си: " + variantResult.toString() + "\n");
         this.yourSuppose = variantResult;
-
         return true;
     }
 
@@ -380,7 +379,7 @@ public class TOTO extends TotoPoint {
 
             // writer.write(String.valueOf(timeAndData()));
             writer.newLine();
-            writer.write("Вариантите са три: \n");
+            writer.write("Предложения за залог - " + this.CIRCULATION + " тираж: \n");
             for (List<Integer> el : variants) {
                 writer.write(el.toString() + "\n");
             }
