@@ -17,10 +17,11 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_LAST_SUPPOSE = " 1, 7, 22, 23, 37, 43 ";
-    private final String LAST_OFFICIAL_RESULT = " 15, 7, 29, 23, 47, 33 ";
-    private final String LastDateOfLottery = "2022 12 25 18 45 ";
-    private final int TODAY_CIRCULATION = 101;
+    private final String YOUR_SUPPOSE = " 8, 16, 27, 29, 38, 46 ";
+    private final String OFFICIAL_RESULT = " 5, 13, 14, 21, 27, 44  ";
+    //TODO: Последният тираж може да приеме 5 цифри - Валидирай го
+    private final String DATEOFLOTTERY = " 2022 12 28 18 45 ";                // next:
+    private final int TODAY_CIRCULATION = 102;
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -90,8 +91,8 @@ public class TOTO extends TotoPoint {
 
         Scanner scanner = new Scanner(System.in);
         System.out.println();
-        System.out.print("Трябва ми резултата от предишният тираж. " +
-                "Ще въведеш резултата или да си го търся?: ( i / s ) ");
+        System.out.print("- Трябва ми резултата от последният тираж. " +
+                "Ще въведеш резултата или да си го търся?: ( i / s ): ");
 
         String answer = scanner.nextLine().trim();
         while (!answer.equalsIgnoreCase("i")
@@ -112,7 +113,7 @@ public class TOTO extends TotoPoint {
                 verification = inputVerification(input);
             }
         } else {
-            input = this.LAST_OFFICIAL_RESULT.trim().split(", ");
+            input = this.OFFICIAL_RESULT.trim().split(", ");
             verification = inputVerification(input);
         }
         this.result = getDigitFromInput(input);
@@ -212,24 +213,24 @@ public class TOTO extends TotoPoint {
     // Ако се среща го заменя с ново произволно число без да търси повторно съвпадение.
     // [7, 8, 28, 34, 42, 47] [1, 10, 11, 25, 32, 34] [19, 20, 27, 33, 35, 41]
     //  el1                    el2:
-    // [7, 8, 28, 34, 42, 47] [1, 10, 11, 25, 32, 34]
-    //  el1                    el2:
-    // [1, 10, 11, 25, 32, 34] [19, 20, 27, 33, 35, 41]
+    // [7, 8, 28, 34, 42, 47] [1, 10, 11, 25, 32, 34]        -> 1 с 2
+    // [7, 8, 28, 34, 42, 47] [19, 20, 27, 33, 35, 41]       -> 1 с 3
+    // [1, 10, 11, 25, 32, 34] [19, 20, 27, 33, 35, 41]      -> 2 с 3
     public static List<List<Integer>> generateUniqueList(List<List<Integer>> list) {
         Random rnd = new Random();
         int el1 = 0;
-
-        for (int i = 1; i < list.size(); i++) {
+        // TODO: Има ли смисъл от t и p при положение, че имат същото поведение като i и j. i++, j++;
+        for (int i = 1, t = 0; i < list.size(); i++, t++) {
             for (int j = 0, p = 0; j < list.get(0).size(); j++, p++) {
-                for (int d = 0; d < 6; d++) {
+                for (int d = 0; d < list.get(0).size(); d++) {
 
-                    el1 = list.get(i-1).get(p);
+                    el1 = list.get(t).get(p);                      // t -> реперният масив; p -> масива в който търси.
                     int el2 = list.get(i).get(d);
                     if (el1 == el2) {
                         list.get(i).remove(d);
                         list.get(i).add(d, rnd.nextInt(1, 50));
                         el2 = list.get(i).get(d);
-                        for (int k = 0; k < list.get(i).size(); k++) {        // Търси дали новото се среща в j-я лист.
+                        for (int k = 0; k < list.get(i).size(); k++) {      // Търси дали новото се среща в j-я лист.
                             int el3 = list.get(i).get(k);
                             if (d != k && (Objects.equals(list.get(i).get(d), list.get(i).get(k)))) {
                                 list.get(i).remove(k);
@@ -296,9 +297,9 @@ public class TOTO extends TotoPoint {
             }
             suppose = getDigitFromInput(suppInput);
         } else {
-            resInput = this.LAST_OFFICIAL_RESULT.trim().split(", ");
+            resInput = this.OFFICIAL_RESULT.trim().split(", ");
             result = getDigitFromInput(resInput);
-            suppInput = this.YOUR_LAST_SUPPOSE.trim().split(", ");
+            suppInput = this.YOUR_SUPPOSE.trim().split(", ");
             suppose = getDigitFromInput(suppInput);
         }
 
@@ -358,7 +359,7 @@ public class TOTO extends TotoPoint {
             if (tmp.get(i) != 0 && i < tmp.size() - 1) {
                 System.out.print(tmp.get(i) + ", ");
             } else if (i == tmp.size() - 1) {
-                System.out.println(tmp.get(i) + ".");
+                System.out.println(tmp.get(i));
             }
         }
     }
@@ -418,7 +419,7 @@ public class TOTO extends TotoPoint {
         Scanner scanner = new Scanner(System.in);
 
         //TODO: Трябва да валидираш въвеждането на датата.
-        dataTimeFormatAnswer = LastDateOfLottery.trim().split(" ");
+        dataTimeFormatAnswer = DATEOFLOTTERY.trim().split(" ");
 
 //        System.out.print("Кога е следващият Тираж? " +
 //                "\nВъведи (година месец ден час минути) разделени с интервал (2022 12 25 18 45): ");
@@ -445,9 +446,10 @@ public class TOTO extends TotoPoint {
         int count = 0;
         int dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
 
-        while (dDays < 0) {
+        if (dDays < 0) {
             System.out.println("... Я си оправи времената");
-            dDays = getLocalDateTime().getDayOfMonth() - now.getDayOfMonth();
+            return "Оправи времената. -> ERROR";
+            //dDays = getLocalDateTime().getDayOfMonth() - now.getDayOfMonth();
         }
 
         while (dDays != 0) {
