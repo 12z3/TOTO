@@ -17,6 +17,9 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
+    private final String YOUR_LAST_SUPPOSE = " 1, 7, 22, 23, 37, 43 ";
+    private final String LAST_OFFICIAL_RESULT = " 15, 7, 29, 23, 47, 33 ";
+    private final String LastDateOfLottery = "2022 12 25 18 45 ";
     private final int TODAY_CIRCULATION = 101;
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
@@ -56,9 +59,9 @@ public class TOTO extends TotoPoint {
     public void playToto() throws IOException {
         this.CIRCULATION++;
         setResult();
-        setYourSuppose();
-        writeResult(this.variants, this.result);
+        if (!setYourSuppose()) return;
         printToto();
+        writeResult(this.variants, this.result);
     }
 
     public void checkResult() {
@@ -78,6 +81,8 @@ public class TOTO extends TotoPoint {
     }
 
     public List<Integer> setResult() {
+        String[] input;
+        boolean isIt;
 
         System.out.print("-> Валидни числа са всички положителни Двуцифрени (12) числа " +
                 "от 1 до 49 разделени с запетая и интервал (', ') - (6, 15, 18, 23, 25, 39). \n" +
@@ -85,10 +90,24 @@ public class TOTO extends TotoPoint {
 
         Scanner scanner = new Scanner(System.in);
         System.out.println();
-        System.out.printf("%s (%d-и) %s", "Какъв e резултата от последният", this.CIRCULATION, "тираж: ");
+        System.out.print("Трябва ми резултата от предишният тираж. " +
+                "Ще въведеш резултата или да си го търся?: ( i / s ) ");
 
-        String[] input = scanner.nextLine().trim().split(", ");
-        boolean isIt = inputVerification(input);
+        String answer = scanner.nextLine().trim();
+        while (!answer.equalsIgnoreCase("i")
+                && !answer.equalsIgnoreCase("s")) {
+            System.out.print("Виж. Трябва да избереш между i и c. Дай пак: ");
+            answer = scanner.nextLine().trim();
+        }
+
+        if (answer.equalsIgnoreCase("i")) {
+            System.out.printf("%s (%d-и) %s", "Въведе e резултата от последният", this.CIRCULATION, "тираж: ");
+            input = scanner.nextLine().trim().split(", ");
+            isIt = inputVerification(input);
+        } else {
+            input = this.LAST_OFFICIAL_RESULT.trim().split(", ");
+            isIt = inputVerification(input);
+        }
 
         while (!isIt) {
             System.out.print("ЗаПри се Вихъре. " +
@@ -145,7 +164,7 @@ public class TOTO extends TotoPoint {
         return count == input.length();
     }
 
-    public void setYourSuppose() throws IOException {
+    public boolean setYourSuppose() throws IOException {
         List<List<Integer>> tmp = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
@@ -157,6 +176,8 @@ public class TOTO extends TotoPoint {
             System.out.print("Дай ми Коректен отговор: (y / n) ?: ");
             answer = scanner.nextLine().trim();
         }
+
+        if (answer.equalsIgnoreCase("n")) return false;
 
         System.out.printf("%s", "Вариантите са три: ");
         tmp = getFinalListOfNumbers();
@@ -185,6 +206,8 @@ public class TOTO extends TotoPoint {
         Collections.sort(this.variantResult);
         System.out.println("Избрал си: " + variantResult.toString() + "\n");
         this.yourSuppose = variantResult;
+
+        return true;
     }
 
     public static List<List<Integer>> generateUniqueList(List<List<Integer>> list) {
@@ -220,21 +243,42 @@ public class TOTO extends TotoPoint {
         Collections.sort(this.result);
         Collections.sort(this.yourSuppose);
         System.out.printf("Резултата от последният тираж е:  %s. \n" +
-                "Залогът, който си избрал е вариант: %s %s ", this.result, this.yourVariantChoice, this.yourSuppose);
+                "Залогът, който си избрал е вариант %s: %s ", this.result, this.yourVariantChoice, this.yourSuppose);
     }
 
-
     protected List<Integer> checkResults(List<Integer> result, List<Integer> suppose) {
+        String[] resInput;
+        String[] suppInput;
         Scanner scanner = new Scanner(System.in);
 
         //TODO: Валидирай Input!
-        System.out.print("Въведи последният резултат от тиража: ");
-        String[] resInput = scanner.nextLine().trim().split(", ");   // 112, 12, aa,
-        result = getDigitFromInput(resInput);
 
-        System.out.print("Въведи твоят залог: ");
-        String[] suppInput = scanner.nextLine().trim().split(", ");
-        suppose = getDigitFromInput(suppInput);
+        System.out.print("\nТрябват ми резултата от последният тираж и твоя предишен залог залог. " +
+                "\nЩе въведеш резултата или да го търся?: ( i / s ): ");
+
+        String answer = scanner.nextLine().trim();
+        while (!answer.equalsIgnoreCase("i")
+                && !answer.equalsIgnoreCase("s")) {
+            System.out.print("Виж Братле, трябва да избереш между i и s. Дай пак: ");
+            answer = scanner.nextLine().trim();
+        }
+
+        if (answer.equalsIgnoreCase("i")) {
+            System.out.print("Въведи последният резултат от тиража: ");
+            resInput = scanner.nextLine().trim().split(", ");                       // 112, 12, aa,
+            //TODO: Трябва да валидираш въвеждания резултат
+            result = getDigitFromInput(resInput);
+
+            System.out.print("Въведи твоят залог: ");
+            suppInput = scanner.nextLine().trim().split(", ");
+            suppose = getDigitFromInput(suppInput);
+        } else {
+            resInput = this.LAST_OFFICIAL_RESULT.trim().split(", ");
+            result = getDigitFromInput(resInput);
+            suppInput = this.YOUR_LAST_SUPPOSE.trim().split(", ");
+            suppose = getDigitFromInput(suppInput);
+        }
+
 
         List<Integer> tmp = new ArrayList<>();
         int count = 0;
@@ -301,7 +345,7 @@ public class TOTO extends TotoPoint {
         String path = "";
         boolean choice = false;
         try {
-            System.out.print("Да се запазят ли предишните резултати? (y / n): ");
+            System.out.print("\nДа се запазят ли предишните резултати? (y / n): ");
 
             String thisAnswer = scanner.nextLine().trim();
             while (!thisAnswer.equalsIgnoreCase("y")
@@ -312,9 +356,9 @@ public class TOTO extends TotoPoint {
             if (thisAnswer.equalsIgnoreCase("y")) choice = true;
 
             BufferedWriter writer =
-                    new BufferedWriter(new java.io.FileWriter("newTotoResult", choice));
+                    new BufferedWriter(new java.io.FileWriter("newTotoResult.txt", choice));
 
-            File file = new File("newTotoResult");
+            File file = new File("newTotoResult.txt");
             if (file.exists()) path = file.getAbsolutePath();
 
             // writer.write(String.valueOf(timeAndData()));
@@ -334,23 +378,33 @@ public class TOTO extends TotoPoint {
             writer.write(
                     Objects.requireNonNull(whenTotoTimeIs(resultLDT)));
 
-            writer.newLine();
+//            writer.newLine();
             writer.close();
         } catch (IOException exp) {
             exp.printStackTrace();
         }
-        if (choice) System.out.println("\nРезултатът е записан в: " + path);
+        if (choice) {
+            System.out.print("\nРезултатите са записани в: " + path);
+        } else {
+            System.out.print("\nРезултатът е записан в: " + path);
+        }
     }
 
-    private static LocalDateTime getLocalDateTime() {
+    private LocalDateTime getLocalDateTime() {
+        String[] dataTimeFormatAnswer;
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Кога е следващият Тираж? " +
-                "\nВъведи (година месец ден час минути) разделени с интервал (2022 12 25 18 45): ");
 
         //TODO: Трябва да валидираш въвеждането на датата.
-        String[] dataTimeFormatAnswer = scanner.nextLine()
-                .trim()
-                .split(" ");
+        dataTimeFormatAnswer = LastDateOfLottery.trim().split(" ");
+
+//        System.out.print("Кога е следващият Тираж? " +
+//                "\nВъведи (година месец ден час минути) разделени с интервал (2022 12 25 18 45): ");
+//
+//        //TODO: Трябва да валидираш въвеждането на датата.
+//        dataTimeFormatAnswer = scanner.nextLine()
+//                .trim()
+//                .split(" ");
+
         int year = Integer.parseInt(dataTimeFormatAnswer[0]);
         int month = Integer.parseInt(dataTimeFormatAnswer[1]);
         int dayOfMonth = Integer.parseInt(dataTimeFormatAnswer[2]);
@@ -360,7 +414,7 @@ public class TOTO extends TotoPoint {
         return LocalDateTime.of(year, month, dayOfMonth, hour, minute);
     }
 
-    public static String whenTotoTimeIs(LocalDateTime timeOfToto) {
+    public String whenTotoTimeIs(LocalDateTime timeOfToto) {
         DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd MMM yyyy, E - a c 'ден:' HH:hh:ss ч. ");
 
         LocalDateTime now = LocalDateTime.now();
