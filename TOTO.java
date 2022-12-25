@@ -208,6 +208,13 @@ public class TOTO extends TotoPoint {
         return true;
     }
 
+    // Сравнява всеки el1 с всеки el2. При съвпадение генерира ново число и проверява дали то се среща в същия масив.
+    // Ако се среща го заменя с ново произволно число без да търси повторно съвпадение.
+    // [7, 8, 28, 34, 42, 47] [1, 10, 11, 25, 32, 34] [19, 20, 27, 33, 35, 41]
+    //  el1                    el2:
+    // [7, 8, 28, 34, 42, 47] [1, 10, 11, 25, 32, 34]
+    //  el1                    el2:
+    // [1, 10, 11, 25, 32, 34] [19, 20, 27, 33, 35, 41]
     public static List<List<Integer>> generateUniqueList(List<List<Integer>> list) {
         Random rnd = new Random();
         int el1 = 0;
@@ -216,7 +223,7 @@ public class TOTO extends TotoPoint {
             for (int j = 0, p = 0; j < list.get(0).size(); j++, p++) {
                 for (int d = 0; d < 6; d++) {
 
-                    el1 = list.get(0).get(p);
+                    el1 = list.get(i-1).get(p);
                     int el2 = list.get(i).get(d);
                     if (el1 == el2) {
                         list.get(i).remove(d);
