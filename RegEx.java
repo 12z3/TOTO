@@ -1,17 +1,19 @@
 package task;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class RegEx {
+    /**
+     * <a href="https://regexr.com/">...</a>
+     * <a href="https://www.vogella.com/tutorials/JavaRegularExpressions/article.html">...</a>
+     */
     public static void main(String[] args) {
         //String a = "slkdj 1234 *&^ H";
         ///String a = "slkdj, 12, 34 *&^ H";
         String aa = " 12";
 
-        String b = "13, 23, 45, 33, 5, 44";
-        String bb = "-13, 23, 45, 33, 5, 44";
-        String bbb = "asd, 23, 45, 33, 5, 44";
+        String b = " 3, 23, 45, 33, 5, 44";
+        String b4 = "3, 3, 5, 3, 5, 4";
+        String b2 = "-13, 23, 45, 33, 5, 44";
+        String b3 = "asd, 23, 45, 33, 5, 44";
 
         // Намира само и единствено числата от 1 до 9 + 0-та.
 //        List<Integer> result = new ArrayList<>();
@@ -26,24 +28,23 @@ public class RegEx {
         String regex2 = "\\d+";
         String regex1 = "[0-9]+";
 
-        regex(b);
-
+        System.out.println(isValidInputList(b));
 
 //        boolean isNumeric = a.chars().allMatch(Character::isDigit);
 //        System.out.println(isNumeric);
 
     }
 
-    private static boolean regex(String b) {
-        String regex = "\\d{2}";
-        String[] tmp = b.trim().split(", ");
+    private static boolean isValidInputList(String input) {
+        int countDigit = 0;
+        String regex = "\\d{2}?|\\d";                                // ... гарантира, че е число 23, 5
+        String[] tmp = input.trim().split(", ");
 
         for (String s : tmp) {
-            if (s.matches(regex)) {
-                System.out.print(s + " ");
-                return true;
-            }
+            if (s.matches(regex)) countDigit++;
         }
-        return false;
+        return countDigit == tmp.length;
     }
+
+
 }
