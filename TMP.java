@@ -109,7 +109,7 @@ public class TMP extends TotoPoint {
             input = scanner.nextLine();
             verification = isValidInputList(input);
             while (!verification) {
-                System.out.print("ЗаПри се Вихъре. " +
+                System.out.print("ЗаПри се Вихъре. -> " + input + " е грешно. " +
                         "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
                         "\n" + "Дай пак: ");
                 input = scanner.nextLine();
@@ -313,7 +313,7 @@ public class TMP extends TotoPoint {
             resInput = scanner.nextLine();
             verificationA = isValidInputList(resInput);
             while (!verificationA) {
-                System.out.print("ЗаПри се Вихъре. " +
+                System.out.print("ЗаПри се Вихъре. -> " + resInput + " е грешно. " +
                         "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
                         "\n" + "Дай пак: ");
                 resInput = scanner.nextLine();
@@ -326,7 +326,7 @@ public class TMP extends TotoPoint {
             suppInput = scanner.nextLine();
             verificationB = isValidInputList(suppInput);
             while (!verificationB) {
-                System.out.print("ЗаПри се Вихъре. " +
+                System.out.print("ЗаПри се Вихъре. -> " + suppInput + " е грешно. " +
                         "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
                         "\n" + "Дай пак: ");
                 suppInput = scanner.nextLine();
