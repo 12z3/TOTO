@@ -21,8 +21,8 @@ public class TMP extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 8, 16, 27, 29, 38, 146 ";
-    private final String OFFICIAL_RESULT = " 5, 13, 14, 21, 27, 144 ";
+    private final String YOUR_SUPPOSE = " 8, 16, 27, 29, 38, 46 ";
+    private final String OFFICIAL_RESULT = " 5, 13, 14, 21, 27, 44 ";
     private final String DATEOFLOTTERY = " 2022 12 29 18 45 ";
     private final int TODAY_CIRCULATION = 102;
     private int CIRCULATION = TODAY_CIRCULATION;
@@ -119,7 +119,7 @@ public class TMP extends TotoPoint {
             input = this.OFFICIAL_RESULT;
             verification = isValidInputList(input);
             while (!verification) {
-                System.out.print("- Стойността по подразбиране на 'OFFICIAL_RESULT' е грешна." +
+                System.out.print("- Стойността по подразбиране на 'OFFICIAL_RESULT' -> " + input + " е грешна." +
                         " Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39 " +
                         "\n- Въведи нова: ");
                 input = scanner.nextLine();
@@ -144,7 +144,7 @@ public class TMP extends TotoPoint {
 
     private static List<Integer> getValidInputList(String inputList) {
         List<Integer> digits = new ArrayList<>();
-        String regex = "\\d{2}?|\\d";
+        String regex = "^(0?[1-9]|[1-4][0-9])(,(0?[1-9]|[1-4][0-9]))*$";
         String[] tmp = inputList.trim().split(", ");
 
         for (String s : tmp) {
@@ -337,8 +337,8 @@ public class TMP extends TotoPoint {
             resInput = this.OFFICIAL_RESULT;
             verificationC = isValidInputList(resInput);
             while (!verificationC) {
-                System.out.print("- Стойността по подразбиране на 'OFFICIAL_RESULT' е грешна." +
-                        "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39 " +
+                System.out.print("- Стойността по подразбиране на 'OFFICIAL_RESULT' -> " + resInput + " е грешна." +
+                        " Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39 " +
                         "\n- Въведи нова: ");
                 resInput = scanner.nextLine();
                 verificationC = isValidInputList(resInput);
@@ -348,8 +348,8 @@ public class TMP extends TotoPoint {
             suppInput = this.YOUR_SUPPOSE;
             verificationD = isValidInputList(suppInput);
             while (!verificationD) {
-                System.out.print("- Стойността по подразбиране на 'YOUR_SUPPOSE' е грешна." +
-                        "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39 " +
+                System.out.print("- Стойността по подразбиране на 'YOUR_SUPPOSE' -> " + suppInput + " е грешна." +
+                        " Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39 " +
                         "\n- Въведи нова: ");
                 suppInput = scanner.nextLine();
                 verificationD = isValidInputList(suppInput);
