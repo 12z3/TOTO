@@ -20,7 +20,7 @@ public class TOTO extends TotoPoint {
     private final String YOUR_SUPPOSE = " 8, 16, 27, 29, 38, 46 ";
     private final String OFFICIAL_RESULT = " 5, 13, 14, 21, 27, 44  ";
     //TODO: Последният тираж може да приеме 5 цифри - Валидирай го
-    private final String DATEOFLOTTERY = " 2022 12 28 18 45 ";                // next:
+    private final String DATEOFLOTTERY = " 2022 12 29 18 45 ";
     private final int TODAY_CIRCULATION = 102;
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
@@ -118,6 +118,18 @@ public class TOTO extends TotoPoint {
         }
         this.result = getDigitFromInput(input);
         return this.result;
+    }
+
+    //TODO: Замества методите: "isNotAString{isNotAString, isDoubleDigits}"
+    private static boolean isValidInputList(String inputList) {
+        int countDigit = 0;
+        String regex = "\\d{2}?|\\d";
+        String[] tmp = inputList.trim().split(", ");
+
+        for (String s : tmp) {
+            if (s.matches(regex)) countDigit++;
+        }
+        return countDigit == tmp.length;
     }
 
     private List<Integer> getDigitFromInput(String[] input) {                 // TODO: Обмисло го все пак.
