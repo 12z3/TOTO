@@ -13,6 +13,7 @@ public class TMP extends TotoPoint {
 
     // Нов начин за валидиране на входните масиви: isValidInputList() гетValidInputList();
     // Валидират се и стойносттите на "YOUR_SUPPOSE" и "OFFICIAL_RESULT"
+
     /**
      * Днешна дата:25.12.2022
      * Номер на тираж: 103
@@ -20,9 +21,8 @@ public class TMP extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 8, 16, 27, 29, 38, 46 ";
-    private final String OFFICIAL_RESULT = " 5, 13, 14, 21, 27, 44 ";
-    //TODO: Последният тираж може да приеме 5 цифри - Валидирай го
+    private final String YOUR_SUPPOSE = " 8, 16, 27, 29, 38, 146 ";
+    private final String OFFICIAL_RESULT = " 5, 13, 14, 21, 27, 144 ";
     private final String DATEOFLOTTERY = " 2022 12 29 18 45 ";
     private final int TODAY_CIRCULATION = 102;
     private int CIRCULATION = TODAY_CIRCULATION;
@@ -86,7 +86,6 @@ public class TMP extends TotoPoint {
 
     public List<Integer> setResult() {
         String input;
-        //String[] input;
         boolean verification;
 
         System.out.print("-> Валидни числа са всички положителни Двуцифрени (12) числа " +
@@ -108,21 +107,18 @@ public class TMP extends TotoPoint {
         if (answer.equalsIgnoreCase("i")) {
             System.out.printf("%s (%d-и) %s", "Въведи резултата от последният", this.CIRCULATION, "тираж: ");
             input = scanner.nextLine();
-           // verification = inputVerification(input);
             verification = isValidInputList(input);
             while (!verification) {
                 System.out.print("ЗаПри се Вихъре. " +
                         "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
                         "\n" + "Дай пак: ");
                 input = scanner.nextLine();
-                //verification = inputVerification(input);
                 verification = isValidInputList(input);
             }
         } else {
             input = this.OFFICIAL_RESULT;
-           // verification = inputVerification(input);
             verification = isValidInputList(input);
-            while (!verification){
+            while (!verification) {
                 System.out.print("- Стойността по подразбиране на 'OFFICIAL_RESULT' е грешна." +
                         " Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39 " +
                         "\n- Въведи нова: ");
@@ -137,13 +133,13 @@ public class TMP extends TotoPoint {
     //TODO: Замества методите: "isNotAString{isNotAString, isDoubleDigits}"
     private static boolean isValidInputList(String inputList) {
         int countDigit = 0;
-        String regex = "\\d{2}?|\\d";
+        String regex = "^(0?[1-9]|[1-4][0-9])(,(0?[1-9]|[1-4][0-9]))*$";
         String[] tmp = inputList.trim().split(", ");
 
         for (String s : tmp) {
             if (s.matches(regex)) countDigit++;
         }
-        return countDigit == tmp.length && tmp.length == 6;
+        return countDigit == tmp.length;
     }
 
     private static List<Integer> getValidInputList(String inputList) {
@@ -204,7 +200,7 @@ public class TMP extends TotoPoint {
 //    }
 
     public boolean setYourSuppose() throws IOException {
-        List<List<Integer>> tmp = new ArrayList<>();
+        List<List<Integer>> tmp;
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("\nИграем ли?: (y / n) ");
@@ -292,9 +288,7 @@ public class TMP extends TotoPoint {
     }
 
     protected List<Integer> checkResults(List<Integer> result, List<Integer> suppose) {
-        //String[] resInput;
         String resInput;
-        //String[] suppInput;
         String suppInput;
         boolean verificationA;
         boolean verificationB;
@@ -316,59 +310,50 @@ public class TMP extends TotoPoint {
 
         if (answer.equalsIgnoreCase("i")) {
             System.out.print("Въведи последният резултат от тиража: ");
-            //resInput = scanner.nextLine().trim().split(", ");                       // 112, 12, aa,
             resInput = scanner.nextLine();
             verificationA = isValidInputList(resInput);
             while (!verificationA) {
                 System.out.print("ЗаПри се Вихъре. " +
                         "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
                         "\n" + "Дай пак: ");
-                //resInput = scanner.nextLine().trim().split(", ");                       // 112, 12, aa,
                 resInput = scanner.nextLine();
-                //verificationA = inputVerification(resInput);
                 verificationA = isValidInputList(resInput);
             }
 
             result = getValidInputList(resInput);
 
             System.out.print("Въведи твоят залог: ");
-           // suppInput = scanner.nextLine().trim().split(", ");
             suppInput = scanner.nextLine();
             verificationB = isValidInputList(suppInput);
             while (!verificationB) {
                 System.out.print("ЗаПри се Вихъре. " +
                         "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
                         "\n" + "Дай пак: ");
-                //suppInput = scanner.nextLine().trim().split(", ");
                 suppInput = scanner.nextLine();
                 verificationB = isValidInputList(suppInput);
             }
             suppose = getValidInputList(suppInput);
         } else {
-            //resInput = this.OFFICIAL_RESULT.trim().split(", ");
             resInput = this.OFFICIAL_RESULT;
             verificationC = isValidInputList(resInput);
-           // result = getDigitFromInput(resInput);
-            while (!verificationC){
+            while (!verificationC) {
                 System.out.print("- Стойността по подразбиране на 'OFFICIAL_RESULT' е грешна." +
-                        "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39. " +
+                        "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39 " +
                         "\n- Въведи нова: ");
                 resInput = scanner.nextLine();
                 verificationC = isValidInputList(resInput);
             }
 
             result = getValidInputList(resInput);
-            //suppInput = this.YOUR_SUPPOSE.trim().split(", ");
             suppInput = this.YOUR_SUPPOSE;
             verificationD = isValidInputList(suppInput);
-            while (!verificationD){
+            while (!verificationD) {
                 System.out.print("- Стойността по подразбиране на 'YOUR_SUPPOSE' е грешна." +
-                        "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39. " +
+                        "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39 " +
                         "\n- Въведи нова: ");
                 suppInput = scanner.nextLine();
                 verificationD = isValidInputList(suppInput);
             }
-            //suppose = getDigitFromInput(suppInput);
             suppose = getValidInputList(suppInput);
         }
 
@@ -400,8 +385,8 @@ public class TMP extends TotoPoint {
     //TODO: Оправи си Логиката....
     protected void printCheckedResult(List<Integer> tmp, int counter) {
         if (counter < 0) {
-            System.out.println("ERROR < 0");                // MESSAGE1 = "Нема да се плашиш само... Продължавай.";
-            return;                                         // MESSAGE2 = "Имаш %d съвпадения: ";
+            System.out.println("ERROR < 0");
+            return;
         }
         if (counter == 1) {
             System.out.println("\n" + this.MESSAGE1);
