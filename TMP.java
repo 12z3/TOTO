@@ -139,7 +139,7 @@ public class TMP extends TotoPoint {
         for (String s : tmp) {
             if (s.matches(regex)) countDigit++;
         }
-        return countDigit == tmp.length;
+        return countDigit == tmp.length && tmp.length == 6;
     }
 
     private static List<Integer> getValidInputList(String inputList) {
