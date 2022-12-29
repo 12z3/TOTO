@@ -22,8 +22,8 @@ public class TMP extends TotoPoint {
      */
 
     private final String YOUR_SUPPOSE = " 8, 16, 27, 29, 38, 46 ";
-    private final String OFFICIAL_RESULT = " 5, 13, 14, 21, 27, 44 ";
-    private final String DATEOFLOTTERY = " 2022 12 29 18 45 ";
+    private final String OFFICIAL_RESULT = " 8, 19, 24, 29, 31, 42 ";
+    private final String DATEOFLOTTERY = " 2023 01 01 18 45 ";
     private final int TODAY_CIRCULATION = 102;
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
@@ -32,7 +32,7 @@ public class TMP extends TotoPoint {
     private List<List<Integer>> variants = new ArrayList<>();
 
     protected int counter = 0;
-    private final String MESSAGE1 = "Нема да се плашиш само... Продължавай.";
+    private final String MESSAGE1 = "Идеално... Продължавай така.";
     private final String MESSAGE2 = "Имаш %d съвпадения: ";
     private final String MESSAGE3 = "Имаш %d съвпадение: ";
     String yourVariantChoice = "";
@@ -497,13 +497,16 @@ public class TMP extends TotoPoint {
 
         LocalDateTime now = LocalDateTime.now();
 
-        int count = 0;
+        int dYear = timeOfToto.getYear() - now.getYear();
         int dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
+        int count = 0;
 
-        if (dDays < 0) {
-            System.out.println("... Я си оправи времената");
-            return "Оправи времената. -> ERROR";
-            //dDays = getLocalDateTime().getDayOfMonth() - now.getDayOfMonth();
+        if (dYear == 0) {
+            dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
+        } else if (dYear < 0) {
+            dDays = -1;
+        } else if (dYear == 1) {
+            dDays = 30 - now.getDayOfMonth() + timeOfToto.getDayOfMonth();
         }
 
         while (dDays != 0) {
