@@ -239,8 +239,8 @@ public class TMP extends TotoPoint {
             case "3" -> this.variantResult = this.variants.get(2);
         }
         Collections.sort(this.variantResult);
-        System.out.println("Избрал си: " + variantResult.toString() + "\n");
-        this.yourSuppose = variantResult;
+        System.out.println("Избрал си: " + this.variantResult.toString() + "\n");
+        this.yourSuppose = this.variantResult;
         return true;
     }
 
