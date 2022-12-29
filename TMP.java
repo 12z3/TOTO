@@ -503,10 +503,15 @@ public class TMP extends TotoPoint {
 
         if (dYear == 0) {
             dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
-        } else if (dYear < 0) {
+        } else if (dYear < 0 || dYear > 2) {
             dDays = -1;
-        } else if (dYear == 1) {
+        } else {
             dDays = 30 - now.getDayOfMonth() + timeOfToto.getDayOfMonth();
+        }
+
+        while (dDays < 0) {
+            System.out.println("... Я си оправи времената");
+            dDays = getLocalDateTime().getDayOfMonth() - now.getDayOfMonth();
         }
 
         while (dDays != 0) {
