@@ -1,6 +1,6 @@
-package task.TMP;
+package task.TOTO;
 
-import task.TOTO.TotoPoint;
+import task.TOTOOLD.TotoPoint;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class TMP extends TotoPoint {
+public class TOTO extends TotoPoint {
 
     // Нов начин за валидиране на входните масиви: isValidInputList() гетValidInputList();
     // Валидират се и стойносттите на "YOUR_SUPPOSE" и "OFFICIAL_RESULT"
@@ -24,7 +24,7 @@ public class TMP extends TotoPoint {
     private final String YOUR_SUPPOSE = " 8, 16, 27, 29, 38, 46 ";
     private final String OFFICIAL_RESULT = " 8, 19, 24, 29, 31, 42 ";
     private final String DATEOFLOTTERY = " 2023 01 01 18 45 ";
-    private final int TODAY_CIRCULATION = 102;
+    private final int TODAY_CIRCULATION = 103;
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -37,11 +37,11 @@ public class TMP extends TotoPoint {
     private final String MESSAGE3 = "Имаш %d съвпадение: ";
     String yourVariantChoice = "";
 
-    public TMP() {
+    public TOTO() {
     }
 
     public void play() throws IOException {
-        TMP tmp = new TMP();
+        TOTO tmp = new TOTO();
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Залагаме или проверяваме резултат? (p / c): ");
@@ -506,7 +506,7 @@ public class TMP extends TotoPoint {
         } else if (dYear < 0 || dYear > 2) {
             dDays = -1;
         } else {
-            dDays = 30 - now.getDayOfMonth() + timeOfToto.getDayOfMonth();
+            dDays = 31 - now.getDayOfMonth() + timeOfToto.getDayOfMonth();
         }
 
         while (dDays < 0) {
