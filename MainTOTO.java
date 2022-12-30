@@ -1,14 +1,13 @@
-package task.TMP;
+package task.TOTO;
 
-import task.TOTO.Projects.TOTO;
 import training.Methods;
 
 import java.io.IOException;
 
-public class MainTMP extends Methods {
+public class MainTOTO extends Methods {
     public static void main(String[] args) {
         long start = getStartTime();
-        TMP totoTMP = new TMP();
+        TOTO totoTMP = new TOTO();
         try {
             totoTMP.play();
         }catch (IOException e){
