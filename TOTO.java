@@ -21,10 +21,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 8, 16, 27, 29, 38, 46 ";
-    private final String OFFICIAL_RESULT = " 8, 19, 24, 29, 31, 42 ";
-    private final String DATEOFLOTTERY = " 2023 01 01 18 45 ";
-    private final int TODAY_CIRCULATION = 103;
+    private final String YOUR_SUPPOSE = " 4, 15, 19, 37, 44, 47";             // за: 2023 01 05 18 45
+    private final String OFFICIAL_RESULT = " 5, 14, 37, 38, 39, 47 ";         // от: 2023 01 01 18 45
+    private final String DATE_OF_LOTTERY = " 2023 01 05 18 45 ";
+    private final int TODAY_CIRCULATION = 1;
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -61,7 +61,7 @@ public class TOTO extends TotoPoint {
     }
 
     public void playToto() throws IOException {
-        this.CIRCULATION++;
+        //this.CIRCULATION++;
         setResult();
         if (!setYourSuppose()) return;
         printToto();
@@ -283,8 +283,9 @@ public class TOTO extends TotoPoint {
     public void printToto() {
         Collections.sort(this.result);
         Collections.sort(this.yourSuppose);
-        System.out.printf("Резултата от последният тираж е:  %s. \n" +
-                "Залогът, който си избрал е вариант %s: %s ", this.result, this.yourVariantChoice, this.yourSuppose);
+        System.out.printf("Резултата от последният тираж (%d) е:  %s. \n" +
+                        "Залогът, който си избрал е вариант %s: %s ",
+                this.CIRCULATION, this.result, this.yourVariantChoice, this.yourSuppose);
     }
 
     protected List<Integer> checkResults(List<Integer> result, List<Integer> suppose) {
@@ -448,7 +449,7 @@ public class TOTO extends TotoPoint {
             writer.append("----------------------------------------------" + "\n");
             writer.write("Избрал си вариант " + this.yourVariantChoice + ": " +
                     this.yourSuppose.toString() + "\n"
-                    + "Последен тираж: " + lastResult.toString() + "\n");
+                    + "Последен тираж " + (this.CIRCULATION - 1) + ": " + lastResult.toString() + "\n");
             writer.append("----------------------------------------------" + "\n");
 //            writer.newLine();
 
@@ -473,7 +474,7 @@ public class TOTO extends TotoPoint {
         Scanner scanner = new Scanner(System.in);
 
         //TODO: Трябва да валидираш въвеждането на датата.
-        dataTimeFormatAnswer = DATEOFLOTTERY.trim().split(" ");
+        dataTimeFormatAnswer = DATE_OF_LOTTERY.trim().split(" ");
 
 //        System.out.print("Кога е следващият Тираж? " +
 //                "\nВъведи (година месец ден час минути) разделени с интервал (2022 12 25 18 45): ");
