@@ -435,9 +435,9 @@ public class TOTO extends TotoPoint {
             if (thisAnswer.equalsIgnoreCase("y")) choice = true;
 
             BufferedWriter writer =
-                    new BufferedWriter(new java.io.FileWriter("TMPResult.txt", choice));
+                    new BufferedWriter(new java.io.FileWriter("TMPResult-TEST.txt", choice));
 
-            File file = new File("TMPResult.txt");
+            File file = new File("TMPResult-TEST.txt");
             if (file.exists()) path = file.getAbsolutePath();
 
             // writer.write(String.valueOf(timeAndData()));
@@ -494,7 +494,7 @@ public class TOTO extends TotoPoint {
     }
 
     public String whenTotoTimeIs(LocalDateTime timeOfToto) {
-        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd MMM yyyy, E - a c 'ден:' HH:hh:ss ч. ");
+        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd MMM yyyy, E - a- c 'ден:' HH:mm:ss ч ");
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -507,7 +507,7 @@ public class TOTO extends TotoPoint {
         } else if (dYear < 0 || dYear > 2) {
             dDays = -1;
         } else {
-            dDays = 31 - now.getDayOfMonth() + timeOfToto.getDayOfMonth();
+            dDays = 31 - (now.getDayOfMonth() + timeOfToto.getDayOfMonth());
         }
 
         while (dDays < 0) {
@@ -519,13 +519,30 @@ public class TOTO extends TotoPoint {
             dDays--;
             count++;
         }
+//        long hour1 = now.getHour();
+//        long hour2 = timeOfToto.getHour();
+//        long dHours = Math.abs(hour1 - hour2);
+//
+//        long min1 = now.getMinute();
+//        long min2 = timeOfToto.getMinute();
+//        long dMins = Math.abs(min1 - min2);
+
         long hour1 = now.getHour();
         long hour2 = timeOfToto.getHour();
-        long dHours = Math.abs(hour1 - hour2);
+        long dHours = (hour2 - hour1);
+        if (dHours < 0) {
+            dHours = 24 - (hour1 - hour2);
+            //dDays--;
+            count--;
+        }
 
         long min1 = now.getMinute();
         long min2 = timeOfToto.getMinute();
-        long dMins = Math.abs(min1 - min2);
+        long dMins = (min2 - min1);
+        if (dMins < 0) {
+            dMins = 60 - (min1 - min2);
+            dHours--;
+        }
 
         // if (dDays == 1 && dHours == 0 && dMins == 0) count = 0;
 
@@ -539,10 +556,12 @@ public class TOTO extends TotoPoint {
 
         String sDay = " дни ";
         if (count == 1) sDay = " ден ";
+
         String sHours = " часа ";
-        if (count == 1) sHours = " час ";
+        if (dHours == 1) sHours = " час ";
+
         String sMins = " минути ";
-        if (count == 1) sMins = " минута ";
+        if (dMins == 1) sMins = " минута ";
 
         return ("Днес е: " + now.format(formatDate) + "\n"
                 + "До следващият тираж остават: "
