@@ -449,7 +449,7 @@ public class TOTO extends TotoPoint {
             writer.append("----------------------------------------------" + "\n");
             writer.write("Избрал си вариант " + this.yourVariantChoice + ": " +
                     this.yourSuppose.toString() + "\n"
-                    + "Последен тираж " + (this.CIRCULATION - 1) + ": " + lastResult.toString() + "\n");
+                    + "Последен тираж " + (this.CIRCULATION - 1) + ":    " + lastResult.toString() + "\n");
             writer.append("----------------------------------------------" + "\n");
 //            writer.newLine();
 
@@ -565,7 +565,7 @@ public class TOTO extends TotoPoint {
 
         return ("Денят е: " + timeOfToto.format(formatDate) + "\n" + "Днес е:  " + now.format(formatDate) + "\n"
                 + "До следващият тираж остават: "
-                + count + sDay + "(денят е: " + timeOfToto.getDayOfWeek() + ") - "
+                + count + sDay + "(денят е: " + timeOfToto.getDayOfWeek() + ") "
                 + (dHours + sHours + "и "
                 + (dMins + sMins))
                 + "\n");
