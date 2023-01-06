@@ -435,9 +435,9 @@ public class TOTO extends TotoPoint {
             if (thisAnswer.equalsIgnoreCase("y")) choice = true;
 
             BufferedWriter writer =
-                    new BufferedWriter(new java.io.FileWriter("TMPResult-TEST.txt", choice));
+                    new BufferedWriter(new java.io.FileWriter("TMPResult.txt", choice));         // <-
 
-            File file = new File("TMPResult-TEST.txt");
+            File file = new File("TMPResult.txt");                                              // <-
             if (file.exists()) path = file.getAbsolutePath();
 
             // writer.write(String.valueOf(timeAndData()));
@@ -563,7 +563,7 @@ public class TOTO extends TotoPoint {
         String sMins = " минути ";
         if (dMins == 1) sMins = " минута ";
 
-        return ("Днес е: " + now.format(formatDate) + "\n"
+        return ("Денят е: " + timeOfToto.format(formatDate) + "\n" + "Днес е:  " + now.format(formatDate) + "\n"
                 + "До следващият тираж остават: "
                 + count + sDay + "(денят е: " + timeOfToto.getDayOfWeek() + ") - "
                 + (dHours + sHours + "и "
