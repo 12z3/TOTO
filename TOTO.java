@@ -21,10 +21,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 4, 15, 19, 37, 44, 47";             // за: 2023 01 05 18 45
-    private final String OFFICIAL_RESULT = " 5, 14, 37, 38, 39, 47 ";         // от: 2023 01 01 18 45
-    private final String DATE_OF_LOTTERY = " 2023 01 05 18 45 ";
-    private final int TODAY_CIRCULATION = 1;
+    private final String YOUR_SUPPOSE = " 4, 15, 19, 37, 44, 47";             // за: 2023 01 08 18 45       *
+    private final String OFFICIAL_RESULT = " 5, 19, 21, 34, 35, 44";          // от: 2023 01 05 18 45       *
+    private final String DATE_OF_LOTTERY = " 2023 01 08 18 45 ";
+    private final int TODAY_CIRCULATION = 2;                                  // Промени тук++:             *
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -299,7 +299,7 @@ public class TOTO extends TotoPoint {
 
         //TODO: Валидирай Input!
 
-        System.out.print("\nТрябват ми резултата от последният тираж и твоя предишен залог залог. " +
+        System.out.print("\nТрябват ми резултата от последният тираж и твоя последен залог. " +
                 "\nЩе въведеш резултата или да го търся?: ( i / s ): ");
 
         String answer = scanner.nextLine().trim();
@@ -539,12 +539,16 @@ public class TOTO extends TotoPoint {
 
         String sDay = " дни ";
         if (count == 1) sDay = " ден ";
+        String sHours = " часа ";
+        if (count == 1) sHours = " час ";
+        String sMins = " минути ";
+        if (count == 1) sMins = " минута ";
 
         return ("Днес е: " + now.format(formatDate) + "\n"
                 + "До следващият тираж остават: "
                 + count + sDay + "(денят е: " + timeOfToto.getDayOfWeek() + ") - "
-                + (dHours + " часа " + "и "
-                + (dMins + " минути."))
+                + (dHours + sHours + "и "
+                + (dMins + sMins))
                 + "\n");
     }
 }
