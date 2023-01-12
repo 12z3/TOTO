@@ -21,10 +21,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 4, 15, 19, 37, 44, 47";             // за: 2023 01 08 18 45       *
-    private final String OFFICIAL_RESULT = " 5, 19, 21, 34, 35, 44";          // от: 2023 01 05 18 45       *
-    private final String DATE_OF_LOTTERY = " 2023 01 08 18 45 ";
-    private final int TODAY_CIRCULATION = 2;                                  // Промени тук++:             *
+    private final String YOUR_SUPPOSE = " 12, 13, 20, 29, 31, 43 ";             // за: 2023 01 08 18 45       *
+    private final String OFFICIAL_RESULT = "                       ";           // от: 2023 01 05 18 45       *
+    private final String DATE_OF_LOTTERY = " 2023 01 15 18 45 ";                //                            *
+    private final int TODAY_CIRCULATION = 4;                                    // Промени тук++:             *
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -41,7 +41,7 @@ public class TOTO extends TotoPoint {
     }
 
     public void play() throws IOException {
-        TOTO tmp = new TOTO();
+        TOTO toto = new TOTO();
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Залагаме или проверяваме резултат? (p / c): ");
@@ -54,9 +54,9 @@ public class TOTO extends TotoPoint {
         }
 
         if (answer.equalsIgnoreCase("p")) {
-            tmp.playToto();
+            toto.playToto();
         } else if (answer.equalsIgnoreCase("c")) {
-            tmp.checkResult();
+            toto.checkResult();
         }
     }
 
@@ -432,7 +432,20 @@ public class TOTO extends TotoPoint {
                 System.out.print("Май - май продължаваме с магариите...?: (y / n)?: ");
                 thisAnswer = scanner.nextLine().trim();
             }
+
             if (thisAnswer.equalsIgnoreCase("y")) choice = true;
+
+            if (thisAnswer.equalsIgnoreCase("n")) {
+                System.out.println("\n- Предишната хронология ще бъде ИЗТРИТА.");
+                System.out.print("\nДа се запазят ли предишните резултати? (y / n): ");
+                thisAnswer = scanner.nextLine().trim();
+                while (!thisAnswer.equalsIgnoreCase("y")
+                        && !thisAnswer.equalsIgnoreCase("n")) {
+                    System.out.print("Май - май продължаваме с магариите...?: (y / n)?: ");
+                    thisAnswer = scanner.nextLine().trim();
+                }
+            }
+
 
             BufferedWriter writer =
                     new BufferedWriter(new java.io.FileWriter("TMPResult.txt", choice));         // <-
@@ -502,6 +515,7 @@ public class TOTO extends TotoPoint {
         int dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
         int count = 0;
 
+
         if (dYear == 0) {
             dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
         } else if (dYear < 0 || dYear > 2) {
@@ -510,31 +524,30 @@ public class TOTO extends TotoPoint {
             dDays = 31 - (now.getDayOfMonth() + timeOfToto.getDayOfMonth());
         }
 
-        while (dDays < 0) {
-            System.out.println("... Я си оправи времената");
-            dDays = getLocalDateTime().getDayOfMonth() - now.getDayOfMonth();
-        }
+        if (dDays < 0) return "... Я си оправи времената";
 
         while (dDays != 0) {
             dDays--;
             count++;
         }
+
 //        long hour1 = now.getHour();
 //        long hour2 = timeOfToto.getHour();
 //        long dHours = Math.abs(hour1 - hour2);
 //
-//        long min1 = now.getMinute();
-//        long min2 = timeOfToto.getMinute();
-//        long dMins = Math.abs(min1 - min2);
-
         long hour1 = now.getHour();
         long hour2 = timeOfToto.getHour();
         long dHours = (hour2 - hour1);
-        if (dHours < 0) {
+        if (dHours <= 0) {
             dHours = 24 - (hour1 - hour2);
             //dDays--;
             count--;
         }
+
+
+//        long min1 = now.getMinute();
+//        long min2 = timeOfToto.getMinute();
+//        long dMins = Math.abs(min1 - min2);
 
         long min1 = now.getMinute();
         long min2 = timeOfToto.getMinute();
