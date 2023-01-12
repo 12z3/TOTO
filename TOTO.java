@@ -1,7 +1,5 @@
 package task.TOTO;
 
-import task.TOTOOLD.TotoPoint;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +20,7 @@ public class TOTO extends TotoPoint {
      */
 
     private final String YOUR_SUPPOSE = " 12, 13, 20, 29, 31, 43 ";             // за: 2023 01 08 18 45       *
-    private final String OFFICIAL_RESULT = "                       ";           // от: 2023 01 05 18 45       *
+    private final String OFFICIAL_RESULT = " 8, 15, 34, 43, 44, 46 ";           // от: 2023 01 05 18 45       *
     private final String DATE_OF_LOTTERY = " 2023 01 15 18 45 ";                //                            *
     private final int TODAY_CIRCULATION = 4;                                    // Промени тук++:             *
     private int CIRCULATION = TODAY_CIRCULATION;
@@ -215,14 +213,14 @@ public class TOTO extends TotoPoint {
         if (answer.equalsIgnoreCase("n")) return false;
 
         System.out.printf("%s", "Вариантите са три: ");
-        tmp = getFinalListOfNumbers();
+        tmp = getFinalListOfNumbers();                                           // от TotoPoint.java
 
         // TODO: Има Още какво да се желае.
-        this.variants = generateUniqueList(tmp);
+//        this.variants = generateUniqueList(tmp);
 
-        for (List<Integer> el : this.variants) {
-            Collections.sort(el);
-        }
+//        for (List<Integer> el : this.variants) {
+//            Collections.sort(el);
+//        }
         System.out.print("Избери между 1, 2, 3: ");
 
         this.yourVariantChoice = scanner.nextLine();
@@ -234,9 +232,9 @@ public class TOTO extends TotoPoint {
         }
 
         switch (yourVariantChoice) {
-            case "1" -> this.variantResult = this.variants.get(0);
-            case "2" -> this.variantResult = this.variants.get(1);
-            case "3" -> this.variantResult = this.variants.get(2);
+            case "1" -> this.variantResult = generateUniqueList(tmp).get(0);
+            case "2" -> this.variantResult = generateUniqueList(tmp).get(1);
+            case "3" -> this.variantResult = generateUniqueList(tmp).get(2);
         }
         Collections.sort(this.variantResult);
         System.out.println("Избрал си: " + this.variantResult.toString() + "\n");
@@ -276,6 +274,9 @@ public class TOTO extends TotoPoint {
                     }
                 }
             }
+        }
+        for (List<Integer> el : list) {
+            Collections.sort(el);
         }
         return list;
     }
