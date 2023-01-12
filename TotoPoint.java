@@ -1,7 +1,6 @@
 package task.TOTO;
 
-import hackerRank.Buffer;
-import task.TOTO.Projects.CheResults;
+import training.Methods;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -11,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class TotoPoint extends CheResults {
+public class TotoPoint extends Methods {
     public static void main(String[] args) {
 
         //matchCheckers(getFinalListOfNumbers(), 11);
@@ -80,6 +79,15 @@ public class TotoPoint extends CheResults {
         return listOfDigits;
     }
 
+
+
+
+
+
+
+
+
+    //-----------------------------------------------------------------------------------------------------------------
     // [32, 17, 32, 27, 22, 9] [34, 47, 37, 11, 12, 36] [32, 36, 5, 34, 14, 46] -> 11
     // [0, 0, 0, 0, 0, 0]      [0, 0, 0, 1, 0, 0]       [0, 0, 0, 0, 0, 0]
     // [32, 17, 32, 27, 22, 9] [34, 47, 37, 22, 12, 36] [32, 36, 5, 34, 14, 46]
