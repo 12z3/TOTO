@@ -553,7 +553,7 @@ public class TOTO extends TotoPoint {
         long min1 = now.getMinute();
         long min2 = timeOfToto.getMinute();
         long dMins = (min2 - min1);
-        if (dMins < 0) {
+        if (dMins <= 0) {
             dMins = 60 - (min1 - min2);
             dHours--;
         }
