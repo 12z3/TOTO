@@ -1279,30 +1279,6 @@ public class Methods {
         //System.out.println((end - start) + " ms");
         return end;
     }
-
-    public static String whenTotoTimeIs1(LocalDateTime timeOfToto) {
-        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd MMM yyyy, E - a c 'ден:' HH:hh:ss ч ");
-        ;
-        LocalDateTime now = LocalDateTime.now();
-
-        int count = 0;
-        int days = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
-        while (days != 0) {
-            days--;
-            count++;
-        }
-        long time1 = now.getHour();
-        long time2 = timeOfToto.getHour();
-
-        long min1 = now.getMinute();
-        long min2 = timeOfToto.getMinute();
-
-        return ("The Day is: " + timeOfToto.format(formatDate) + "\n"
-                + "Reminders: "
-                + count + " days (" + now.getDayOfWeek() + ") "
-                + (Math.abs((time1 - time2))) + " hours " + "and "
-                + (Math.abs(min1 - min2)) + " minutes");
-    }
 }
 
 
