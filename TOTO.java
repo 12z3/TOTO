@@ -19,10 +19,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 12, 13, 20, 29, 31, 43 ";             // за: 2023 01 08 18 45       *
-    private final String OFFICIAL_RESULT = " 8, 15, 34, 43, 44, 46 ";           // от: 2023 01 05 18 45       *
-    private final String DATE_OF_LOTTERY = " 2023 01 15 18 45 ";                //                            *
-    private final int TODAY_CIRCULATION = 4;                                    // Промени тук++:             *
+    private final String YOUR_SUPPOSE = " 4, 5, 14, 32, 35, 44 ";              // за: 2023 01 08 18 45       *
+    private final String OFFICIAL_RESULT = " 1, 5, 9, 29, 41, 49 ";              // от: 2023 01 05 18 45       *
+    private final String DATE_OF_LOTTERY = " 2023 01 29 18 45 ";                 //                            *
+    private final int TODAY_CIRCULATION = 9;                                     // Промени тук++:             *
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -41,6 +41,12 @@ public class TOTO extends TotoPoint {
     public void play() throws IOException {
         TOTO toto = new TOTO();
         Scanner scanner = new Scanner(System.in);
+
+        LocalDateTime resultLDT = getLocalDateTime();
+        if (dateCheck(resultLDT)) {
+            System.out.println("\n-> !!! Въведи коректна дата на тиража");
+            return;
+        }
 
         System.out.print("Залагаме или проверяваме резултат? (p / c): ");
         String answer = scanner.nextLine().trim();
@@ -98,7 +104,7 @@ public class TOTO extends TotoPoint {
         String answer = scanner.nextLine().trim();
         while (!answer.equalsIgnoreCase("i")
                 && !answer.equalsIgnoreCase("s")) {
-            System.out.print("Виж. Трябва да избереш между i и c. Дай пак: ");
+            System.out.print("Виж. Трябва да избереш между i и s. Дай пак: ");
             answer = scanner.nextLine().trim();
         }
 
@@ -420,6 +426,7 @@ public class TOTO extends TotoPoint {
         }
     }
 
+    //TODO: Проверявай за актуална дата.
     private void writeResult(List<List<Integer>> variants, List<Integer> lastResult) {
         Scanner scanner = new Scanner(System.in);
         String path = "";
@@ -447,11 +454,10 @@ public class TOTO extends TotoPoint {
                 }
             }
 
-
             BufferedWriter writer =
-                    new BufferedWriter(new java.io.FileWriter("TMPResult.txt", choice));         // <-
+                    new BufferedWriter(new java.io.FileWriter("TMPResult-TEST.txt", choice));         // <-
 
-            File file = new File("TMPResult.txt");                                              // <-
+            File file = new File("TMPResult-TEST.txt");                                              // <-
             if (file.exists()) path = file.getAbsolutePath();
 
             // writer.write(String.valueOf(timeAndData()));
@@ -468,6 +474,7 @@ public class TOTO extends TotoPoint {
 //            writer.newLine();
 
             LocalDateTime resultLDT = getLocalDateTime();
+            //LocalDateTime resultLDT = getLocalDateTime();
             writer.write(
                     Objects.requireNonNull(whenTotoTimeIs(resultLDT)));
 
@@ -507,6 +514,12 @@ public class TOTO extends TotoPoint {
         return LocalDateTime.of(year, month, dayOfMonth, hour, minute);
     }
 
+    private boolean dateCheck(LocalDateTime timeOfToto){
+        LocalDateTime now = LocalDateTime.now();
+        int dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
+        return dDays < 0;
+    }
+
     public String whenTotoTimeIs(LocalDateTime timeOfToto) {
         DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd MMM yyyy, E - a- c 'ден:' HH:mm:ss ч ");
 
@@ -514,8 +527,8 @@ public class TOTO extends TotoPoint {
 
         int dYear = timeOfToto.getYear() - now.getYear();
         int dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
+        int dMinutes = timeOfToto.getMinute() - now.getMinute();
         int count = 0;
-
 
         if (dYear == 0) {
             dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
@@ -525,30 +538,20 @@ public class TOTO extends TotoPoint {
             dDays = 31 - (now.getDayOfMonth() + timeOfToto.getDayOfMonth());
         }
 
-        if (dDays < 0) return "... Я си оправи времената";
+       // if (dDays < 0) return "... Я си оправи времената";
 
         while (dDays != 0) {
             dDays--;
             count++;
         }
 
-//        long hour1 = now.getHour();
-//        long hour2 = timeOfToto.getHour();
-//        long dHours = Math.abs(hour1 - hour2);
-//
         long hour1 = now.getHour();
         long hour2 = timeOfToto.getHour();
         long dHours = (hour2 - hour1);
         if (dHours <= 0) {
             dHours = 24 - (hour1 - hour2);
-            //dDays--;
             count--;
         }
-
-
-//        long min1 = now.getMinute();
-//        long min2 = timeOfToto.getMinute();
-//        long dMins = Math.abs(min1 - min2);
 
         long min1 = now.getMinute();
         long min2 = timeOfToto.getMinute();
@@ -558,15 +561,8 @@ public class TOTO extends TotoPoint {
             dHours--;
         }
 
-        // if (dDays == 1 && dHours == 0 && dMins == 0) count = 0;
-
-        //System.out.println("The Day is: " + timeOfToto.format(formatDate));
-
         //TODO: Оправи името на деня в файла да бъде на Кирилица.
-//        LocalDateTime day = null;
-//        switch (timeOfToto.getDayOfWeek()){
-//            case MONDAY -> day.;
-//        }
+
 
         String sDay = " дни ";
         if (count == 1) sDay = " ден ";
