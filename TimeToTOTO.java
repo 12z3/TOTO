@@ -1,8 +1,7 @@
-package task.TOTOOLD.TotoTime;
+package task.TOTO.TotoTime;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
 public class TimeToTOTO {
     public static void main(String[] args) {
@@ -12,12 +11,8 @@ public class TimeToTOTO {
     }
 
     private static LocalDateTime getLocalDateTime() {
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.print("Кога е следващият Тираж? " +
-//                "\nВъведи (година месец ден час минути) разделени с интервал: ");       // next:2023 01 05 18 45
 
-        String currentDateTime = "2023 01 08 18 45";
-
+        String currentDateTime = "2023 01 29 18 45 ";
         String[] dataTimeFormatAnswer = currentDateTime
                 .trim()
                 .split(" ");
@@ -39,8 +34,12 @@ public class TimeToTOTO {
 
         int dYear = timeOfToto.getYear() - now.getYear();
         int dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
-        int dMinutes = timeOfToto.getMinute() - now.getMinute();
+        long hour1 = now.getHour();
+        long hour2 = timeOfToto.getHour();
+        long dHours = (hour2 - hour1);
         int count = 0;
+
+        //TODO: Как ще направиш проверката за минала дата?
 
         if (dYear == 0) {
             dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
@@ -50,21 +49,8 @@ public class TimeToTOTO {
             dDays = 31 - (now.getDayOfMonth() + timeOfToto.getDayOfMonth());
         }
 
-        while (dDays < 0) {
-            System.out.println("... Я си оправи времената");
-            dDays = getLocalDateTime().getDayOfMonth() - now.getDayOfMonth();
-        }
-        while (dDays != 0) {
-            dDays--;
-            count++;
-        }
-
-        long hour1 = now.getHour();
-        long hour2 = timeOfToto.getHour();
-        long dHours = (hour2 - hour1);
         if (dHours < 0) {
             dHours = 24 - (hour1 - hour2);
-            //dDays--;
             count--;
         }
 
@@ -72,17 +58,25 @@ public class TimeToTOTO {
         long min2 = timeOfToto.getMinute();
         long dMins = (min2 - min1);
         if (dMins < 0) {
-            dMins = 60 - (min1 - min2);
+            dMins = 59 - (min1 - min2);
             dHours--;
         }
 
+        while (dDays != 0) {
+            dDays--;
+            count++;
+        }
 
-        // if (dDays == 1 && dHours == 0 && dMins == 0) dDays = 0;
+        if (count < 0) {
+            System.out.print("Има нещо сбъркано в ДАТАТА");
+            return;
+        }
+
 
         System.out.println("The Day is: " + timeOfToto.format(formatDate));
         System.out.println("ToDay is: " + now.format(formatDate) + "\n" + "\n"
                 + "Reminders: "
-                + count + " days (in " + timeOfToto.getDayOfWeek() + ") - "
+                + count + " days (in " + timeOfToto.getDayOfWeek() + ") "
                 + (dHours + " hours " + "and "
                 + (dMins + " minutes")));
     }
