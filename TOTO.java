@@ -19,10 +19,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 4, 5, 14, 32, 35, 44 ";              // за: 2023 01 08 18 45       *
-    private final String OFFICIAL_RESULT = " 1, 5, 9, 29, 41, 49 ";              // от: 2023 01 05 18 45       *
-    private final String DATE_OF_LOTTERY = " 2023 01 29 18 45 ";                 //                            *
-    private final int TODAY_CIRCULATION = 9;                                     // Промени тук++:             *
+    private final String YOUR_SUPPOSE = " 18, 19, 21, 23, 29, 31 ";              // за: 2023 01 08 18 45       *
+    private final String OFFICIAL_RESULT = " 24, 27, 38, 41, 42, 49 ";              // от: 2023 01 05 18 45       *
+    private final String DATE_OF_LOTTERY = " 2023 02 02 18 45 ";                 //                            *
+    private final int TODAY_CIRCULATION = 10;                                     // Промени тук++:             *
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -42,11 +42,11 @@ public class TOTO extends TotoPoint {
         TOTO toto = new TOTO();
         Scanner scanner = new Scanner(System.in);
 
-        LocalDateTime resultLDT = getLocalDateTime();
-        if (dateCheck(resultLDT)) {
-            System.out.println("\n-> !!! Въведи коректна дата на тиража");
-            return;
-        }
+//        LocalDateTime resultLDT = getLocalDateTime();
+//        if (dateCheck(resultLDT)) {
+//            System.out.println("\n-> !!! Въведи коректна дата на тиража");
+//            return;
+//        }
 
         System.out.print("Залагаме или проверяваме резултат? (p / c): ");
         String answer = scanner.nextLine().trim();
@@ -499,8 +499,6 @@ public class TOTO extends TotoPoint {
 
 //        System.out.print("Кога е следващият Тираж? " +
 //                "\nВъведи (година месец ден час минути) разделени с интервал (2022 12 25 18 45): ");
-//
-//        //TODO: Трябва да валидираш въвеждането на датата.
 //        dataTimeFormatAnswer = scanner.nextLine()
 //                .trim()
 //                .split(" ");
@@ -526,16 +524,16 @@ public class TOTO extends TotoPoint {
         LocalDateTime now = LocalDateTime.now();
 
         int dYear = timeOfToto.getYear() - now.getYear();
-        int dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
+        int dDays = timeOfToto.getDayOfYear() - now.getDayOfYear();
         int dMinutes = timeOfToto.getMinute() - now.getMinute();
         int count = 0;
 
         if (dYear == 0) {
-            dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
+            dDays = timeOfToto.getDayOfYear() - now.getDayOfYear();
         } else if (dYear < 0 || dYear > 2) {
             dDays = -1;
         } else {
-            dDays = 31 - (now.getDayOfMonth() + timeOfToto.getDayOfMonth());
+            dDays = 31 - (now.getDayOfYear() + timeOfToto.getDayOfYear());
         }
 
        // if (dDays < 0) return "... Я си оправи времената";
@@ -562,7 +560,6 @@ public class TOTO extends TotoPoint {
         }
 
         //TODO: Оправи името на деня в файла да бъде на Кирилица.
-
 
         String sDay = " дни ";
         if (count == 1) sDay = " ден ";
