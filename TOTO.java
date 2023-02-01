@@ -431,6 +431,7 @@ public class TOTO extends TotoPoint {
         Scanner scanner = new Scanner(System.in);
         String path = "";
         boolean choice = false;
+
         try {
             System.out.print("\nДа се запазят ли предишните резултати? (y / n): ");
 
@@ -514,7 +515,7 @@ public class TOTO extends TotoPoint {
 
     private boolean dateCheck(LocalDateTime timeOfToto){
         LocalDateTime now = LocalDateTime.now();
-        int dDays = timeOfToto.getDayOfMonth() - now.getDayOfMonth();
+        int dDays = timeOfToto.getDayOfYear() - now.getDayOfYear();
         return dDays < 0;
     }
 
@@ -525,8 +526,15 @@ public class TOTO extends TotoPoint {
 
         int dYear = timeOfToto.getYear() - now.getYear();
         int dDays = timeOfToto.getDayOfYear() - now.getDayOfYear();
-        int dMinutes = timeOfToto.getMinute() - now.getMinute();
+        long hour1 = now.getHour();
+        long hour2 = timeOfToto.getHour();
+        long dHours = (hour2 - hour1);
+        long min1 = now.getMinute();
+        long min2 = timeOfToto.getMinute();
+        long dMins = (min2 - min1);
         int count = 0;
+
+        //TODO: Как ще направиш проверката за минала дата?
 
         if (dYear == 0) {
             dDays = timeOfToto.getDayOfYear() - now.getDayOfYear();
@@ -536,31 +544,24 @@ public class TOTO extends TotoPoint {
             dDays = 31 - (now.getDayOfYear() + timeOfToto.getDayOfYear());
         }
 
-       // if (dDays < 0) return "... Я си оправи времената";
+        if (dHours <= 0) {
+            dHours =  23 - (hour1 - hour2);
+            count--;
+        }
+        if (dMins <= 0) {
+            dMins = 59 - (min1 - min2);
+
+            //dHours--;
+        }
 
         while (dDays != 0) {
             dDays--;
             count++;
         }
 
-        long hour1 = now.getHour();
-        long hour2 = timeOfToto.getHour();
-        long dHours = (hour2 - hour1);
-        if (dHours <= 0) {
-            dHours = 24 - (hour1 - hour2);
-            count--;
-        }
-
-        long min1 = now.getMinute();
-        long min2 = timeOfToto.getMinute();
-        long dMins = (min2 - min1);
-        if (dMins <= 0) {
-            dMins = 60 - (min1 - min2);
-            dHours--;
-        }
+        if (count < 0) return "Има нещо сбъркано в ДАТАТА";
 
         //TODO: Оправи името на деня в файла да бъде на Кирилица.
-
         String sDay = " дни ";
         if (count == 1) sDay = " ден ";
 
