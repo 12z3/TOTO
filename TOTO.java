@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class TOTO extends TotoPoint {
@@ -19,10 +20,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 18, 19, 21, 23, 29, 31 ";              // за: 2023 01 08 18 45       *
-    private final String OFFICIAL_RESULT = " 24, 27, 38, 41, 42, 49 ";              // от: 2023 01 05 18 45       *
-    private final String DATE_OF_LOTTERY = " 2023 02 02 18 45 ";                 //                            *
-    private final int TODAY_CIRCULATION = 10;                                     // Промени тук++:             *
+    private final String YOUR_SUPPOSE = " 7, 9, 16, 41, 42, 45 ";                  // за: 2023 01 08 18 45       *
+    private final String OFFICIAL_RESULT = " 9, 14, 24, 30, 37, 44 ";              // от: 2023 01 05 18 45       *
+    private final String DATE_OF_LOTTERY = " 2023 02 05 18 45 ";                   //                            *
+    private final int TODAY_CIRCULATION = 11;                                      // Промени тук++:             *
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -41,12 +42,6 @@ public class TOTO extends TotoPoint {
     public void play() throws IOException {
         TOTO toto = new TOTO();
         Scanner scanner = new Scanner(System.in);
-
-//        LocalDateTime resultLDT = getLocalDateTime();
-//        if (dateCheck(resultLDT)) {
-//            System.out.println("\n-> !!! Въведи коректна дата на тиража");
-//            return;
-//        }
 
         System.out.print("Залагаме или проверяваме резултат? (p / c): ");
         String answer = scanner.nextLine().trim();
@@ -73,7 +68,7 @@ public class TOTO extends TotoPoint {
     }
 
     public void checkResult() {
-        printCheckedResult(checkResults(this.result, this.yourSuppose), this.counter);
+        printCheckedResult(checkResults(), this.counter);
     }
 
     public List<Integer> getResult() {
@@ -93,7 +88,7 @@ public class TOTO extends TotoPoint {
         boolean verification;
 
         System.out.print("-> Валидни числа са всички положителни Двуцифрени (12) числа " +
-                "от 1 до 49 разделени с запетая и интервал (', ') - (6, 15, 18, 23, 25, 39). \n" +
+                "от 1 до 49 разделени с запетая и интервал (', ') - (6, 15, 18, 23, 25, 39) \n" +
                 "-> Комбинации от сорта: (1а,b3, г6  ааа, -98, ЗЯхF, 654, -1) се приемат за невалидни!\n");
 
         Scanner scanner = new Scanner(System.in);
@@ -290,12 +285,12 @@ public class TOTO extends TotoPoint {
     public void printToto() {
         Collections.sort(this.result);
         Collections.sort(this.yourSuppose);
-        System.out.printf("Резултата от последният тираж (%d) е:  %s. \n" +
+        System.out.printf("Резултата от последният тираж (%d) е:  %s \n" +
                         "Залогът, който си избрал е вариант %s: %s ",
                 this.CIRCULATION, this.result, this.yourVariantChoice, this.yourSuppose);
     }
 
-    protected List<Integer> checkResults(List<Integer> result, List<Integer> suppose) {
+    protected List<Integer> checkResults() {
         String resInput;
         String suppInput;
         boolean verificationA;
@@ -316,6 +311,8 @@ public class TOTO extends TotoPoint {
             answer = scanner.nextLine().trim();
         }
 
+        List<Integer> result;
+        List<Integer> suppose;
         if (answer.equalsIgnoreCase("i")) {
             System.out.print("Въведи последният резултат от тиража: ");
             resInput = scanner.nextLine();
@@ -498,12 +495,6 @@ public class TOTO extends TotoPoint {
         //TODO: Трябва да валидираш въвеждането на датата.
         dataTimeFormatAnswer = DATE_OF_LOTTERY.trim().split(" ");
 
-//        System.out.print("Кога е следващият Тираж? " +
-//                "\nВъведи (година месец ден час минути) разделени с интервал (2022 12 25 18 45): ");
-//        dataTimeFormatAnswer = scanner.nextLine()
-//                .trim()
-//                .split(" ");
-
         int year = Integer.parseInt(dataTimeFormatAnswer[0]);
         int month = Integer.parseInt(dataTimeFormatAnswer[1]);
         int dayOfMonth = Integer.parseInt(dataTimeFormatAnswer[2]);
@@ -513,69 +504,31 @@ public class TOTO extends TotoPoint {
         return LocalDateTime.of(year, month, dayOfMonth, hour, minute);
     }
 
-    private boolean dateCheck(LocalDateTime timeOfToto){
-        LocalDateTime now = LocalDateTime.now();
-        int dDays = timeOfToto.getDayOfYear() - now.getDayOfYear();
-        return dDays < 0;
-    }
-
     public String whenTotoTimeIs(LocalDateTime timeOfToto) {
         DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd MMM yyyy, E - a- c 'ден:' HH:mm:ss ч ");
 
         LocalDateTime now = LocalDateTime.now();
 
-        int dYear = timeOfToto.getYear() - now.getYear();
-        int dDays = timeOfToto.getDayOfYear() - now.getDayOfYear();
-        long hour1 = now.getHour();
-        long hour2 = timeOfToto.getHour();
-        long dHours = (hour2 - hour1);
-        long min1 = now.getMinute();
-        long min2 = timeOfToto.getMinute();
-        long dMins = (min2 - min1);
-        int count = 0;
+        long days = ChronoUnit.DAYS.between(now, timeOfToto);
+        long hours = ChronoUnit.HOURS.between(now, timeOfToto) % 24;
+        long minutes = ChronoUnit.MINUTES.between(now, timeOfToto) % 60;
 
-        //TODO: Как ще направиш проверката за минала дата?
-
-        if (dYear == 0) {
-            dDays = timeOfToto.getDayOfYear() - now.getDayOfYear();
-        } else if (dYear < 0 || dYear > 2) {
-            dDays = -1;
-        } else {
-            dDays = 31 - (now.getDayOfYear() + timeOfToto.getDayOfYear());
-        }
-
-        if (dHours <= 0) {
-            dHours =  23 - (hour1 - hour2);
-            count--;
-        }
-        if (dMins <= 0) {
-            dMins = 59 - (min1 - min2);
-
-            //dHours--;
-        }
-
-        while (dDays != 0) {
-            dDays--;
-            count++;
-        }
-
-        if (count < 0) return "Има нещо сбъркано в ДАТАТА";
 
         //TODO: Оправи името на деня в файла да бъде на Кирилица.
         String sDay = " дни ";
-        if (count == 1) sDay = " ден ";
+        if (days == 1) sDay = " ден ";
 
-        String sHours = " часа ";
-        if (dHours == 1) sHours = " час ";
+        String sHour = " часа ";
+        if (hours == 1) sHour = " час ";
 
-        String sMins = " минути ";
-        if (dMins == 1) sMins = " минута ";
+        String sMin = " минути ";
+        if (minutes == 1) sMin = " минута ";
 
         return ("Денят е: " + timeOfToto.format(formatDate) + "\n" + "Днес е:  " + now.format(formatDate) + "\n"
                 + "До следващият тираж остават: "
-                + count + sDay + "(денят е: " + timeOfToto.getDayOfWeek() + ") "
-                + (dHours + sHours + "и "
-                + (dMins + sMins))
+                + days + sDay + "(денят е: " + timeOfToto.getDayOfWeek() + ") "
+                + (hours + sHour + "и "
+                + (minutes + sMin))
                 + "\n");
     }
 }
