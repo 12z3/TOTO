@@ -2,18 +2,22 @@ package task.TOTO.TotoTime;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class TimeToTOTO {
     public static void main(String[] args) {
 
         LocalDateTime ldt = getLocalDateTime();
         whatTimeToTotoIs(ldt);
+
+        LocalDateTime future = LocalDateTime.of(2023, 2, 5, 18, 45);
+        getTimeBetweenDate(future);
     }
 
     // todo: При текуща дата "2023 01 30 18 45" и следваща "2023 02 02 18 45" резултата е Идиотски.
     private static LocalDateTime getLocalDateTime() {
 
-        String currentDateTime = "2023 02 02 18 45 ";
+        String currentDateTime = "2023 02 05 18 45 ";
         String[] dataTimeFormatAnswer = currentDateTime
                 .trim()
                 .split(" ");
@@ -53,25 +57,36 @@ public class TimeToTOTO {
             dDays = 31 - (now.getDayOfYear() + timeOfToto.getDayOfYear());
         }
 
-//        if (timeOfToto.getMonth() == now.getMonth()) {
-            if (dHours < 0) {
-                dHours = 24 - (hour1 - hour2);
+        if (timeOfToto.getMonth() == now.getMonth()) {
+            if (dHours <= 0) {
+//                if (dHours == 0) {
+//                    dHours = 23 - (hour1 - hour2);
+//                } else dHours = 24 - (hour1 - hour2);
+
+                dHours = (dHours < 0) ? 24 - (hour1 - hour2) : dHours;
+                //dHours = 23 - (hour1 - hour2);
                 count--;
             }
-            if (dMins < 0) {
-                dMins = 59 - (min1 - min2);
-                dHours--;
-            }
+        }
+        if (dMins <= 0) {
+//                if (dMins == 0){
+//                    dMins = 59 - (min1 - min2);
+//                } else dMins = 60 - (min1 - min2);
 
-            while (dDays != 0) {
-                dDays--;
-                count++;
-            }
+            dMins = (dMins < 0) ? 59 - (min1 - min2) : dMins;
+            //dMins = 59 - (min1 - min2);
+            dHours--;
+        }
 
-            if (count < 0) {
-                System.out.print("Има нещо сбъркано в ДАТАТА");
-                return;
-            }
+        while (dDays != 0) {
+            dDays--;
+            count++;
+        }
+
+        if (count < 0) {
+            System.out.print("Има нещо объркано в ДАТАТА");
+            return;
+        }
 //        } else {
 //           //todo: ? (текущият ден + 7) > 30(31)
 //        }
@@ -81,6 +96,17 @@ public class TimeToTOTO {
                 + "Reminders: "
                 + count + " days (in " + timeOfToto.getDayOfWeek() + ") "
                 + (dHours + " hours " + "and "
-                + (dMins + " minutes")));
+                + ((dMins) + " minutes")));
+    }
+
+    private static void getTimeBetweenDate(LocalDateTime future) {
+        LocalDateTime now = LocalDateTime.now();
+        //LocalDateTime future = LocalDateTime.of(2023, 2, 5, 18, 45);
+
+        long days = ChronoUnit.DAYS.between(now, future);
+        long hours = ChronoUnit.HOURS.between(now, future) % 24;
+        long minutes = ChronoUnit.MINUTES.between(now, future) % 60;
+
+        System.out.println("Time remaining: " + days + " days, " + hours + " hours, " + minutes + " minutes");
     }
 }
