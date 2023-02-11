@@ -10,14 +10,14 @@ public class TimeToTOTO {
         LocalDateTime ldt = getLocalDateTime();
         whatTimeToTotoIs(ldt);
 
-        LocalDateTime future = LocalDateTime.of(2023, 2, 5, 18, 45);
+        LocalDateTime future = LocalDateTime.of(2023, 2, 12, 18, 45);
         getTimeBetweenDate(future);
     }
 
     // todo: При текуща дата "2023 01 30 18 45" и следваща "2023 02 02 18 45" резултата е Идиотски.
     private static LocalDateTime getLocalDateTime() {
 
-        String currentDateTime = "2023 02 05 18 45 ";
+        String currentDateTime = "2023 02 12 18 45 ";
         String[] dataTimeFormatAnswer = currentDateTime
                 .trim()
                 .split(" ");
@@ -63,7 +63,7 @@ public class TimeToTOTO {
 //                    dHours = 23 - (hour1 - hour2);
 //                } else dHours = 24 - (hour1 - hour2);
 
-                dHours = (dHours < 0) ? 24 - (hour1 - hour2) : dHours;
+                dHours = (dHours < 0) ? 24 - (hour1 - hour2) : 23;                     // Тук
                 //dHours = 23 - (hour1 - hour2);
                 count--;
             }
@@ -73,9 +73,9 @@ public class TimeToTOTO {
 //                    dMins = 59 - (min1 - min2);
 //                } else dMins = 60 - (min1 - min2);
 
-            dMins = (dMins < 0) ? 59 - (min1 - min2) : dMins;
+            dMins = (dMins < 0) ? 59 - (min1 - min2) : 59;
             //dMins = 59 - (min1 - min2);
-            dHours--;
+            dHours--;                                                                 //... и Тук
         }
 
         while (dDays != 0) {
@@ -84,7 +84,7 @@ public class TimeToTOTO {
         }
 
         if (count < 0) {
-            System.out.print("Има нещо объркано в ДАТАТА");
+            System.out.print("Има нещо объркано в ДАТАТА...\n");
             return;
         }
 //        } else {
