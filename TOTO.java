@@ -10,6 +10,8 @@ import java.util.*;
 
 public class TOTO extends TotoPoint {
 
+    // Необходими са: MainTOTO, TOTO и TotoPoint.
+
     // Нов начин за валидиране на входните масиви: isValidInputList() гетValidInputList();
     // Валидират се и стойносттите на "YOUR_SUPPOSE" и "OFFICIAL_RESULT"
 
@@ -20,10 +22,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 7, 9, 16, 41, 42, 45 ";                  // за: 2023 01 08 18 45       *
-    private final String OFFICIAL_RESULT = " 9, 14, 24, 30, 37, 44 ";              // от: 2023 01 05 18 45       *
-    private final String DATE_OF_LOTTERY = " 2023 02 05 18 45 ";                   //                            *
-    private final int TODAY_CIRCULATION = 11;                                      // Промени тук++:             *
+    private final String YOUR_SUPPOSE = " 13, 11, 14, 20, 28, 36 ";                //  <-                          *
+    private final String OFFICIAL_RESULT = " 6, 15, 18, 23, 25, 39  ";              //   <-       *
+    private final String DATE_OF_LOTTERY = " 2023 02 23 18 45 ";                   //   <-                         *
+    private final int TODAY_CIRCULATION = 16;                                      //   <- Промени тук++:          *
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -287,7 +289,7 @@ public class TOTO extends TotoPoint {
         Collections.sort(this.yourSuppose);
         System.out.printf("Резултата от последният тираж (%d) е:  %s \n" +
                         "Залогът, който си избрал е вариант %s: %s ",
-                this.CIRCULATION, this.result, this.yourVariantChoice, this.yourSuppose);
+                this.CIRCULATION - 1, this.result, this.yourVariantChoice, this.yourSuppose);
     }
 
     protected List<Integer> checkResults() {
@@ -453,9 +455,9 @@ public class TOTO extends TotoPoint {
             }
 
             BufferedWriter writer =
-                    new BufferedWriter(new java.io.FileWriter("TMPResult-TEST.txt", choice));         // <-
+                    new BufferedWriter(new java.io.FileWriter("TMPResult.txt", choice));         // <-
 
-            File file = new File("TMPResult-TEST.txt");                                              // <-
+            File file = new File("TMPResult.txt");                                              // <-
             if (file.exists()) path = file.getAbsolutePath();
 
             // writer.write(String.valueOf(timeAndData()));
@@ -490,7 +492,6 @@ public class TOTO extends TotoPoint {
 
     private LocalDateTime getLocalDateTime() {
         String[] dataTimeFormatAnswer;
-        Scanner scanner = new Scanner(System.in);
 
         //TODO: Трябва да валидираш въвеждането на датата.
         dataTimeFormatAnswer = DATE_OF_LOTTERY.trim().split(" ");
@@ -524,9 +525,20 @@ public class TOTO extends TotoPoint {
         String sMin = " минути ";
         if (minutes == 1) sMin = " минута ";
 
+        Calendar thisDay = null;
+        switch (timeOfToto.getDayOfWeek()){
+            case MONDAY -> { thisDay = Calendar.ПОНЕДЕЛНИК;}
+            case TUESDAY -> { thisDay = Calendar.ВТОРНИК;}
+            case WEDNESDAY -> { thisDay = Calendar.СРЯДА;}
+            case THURSDAY -> { thisDay = Calendar.ЧЕТВЪРТЪК;}
+            case FRIDAY -> { thisDay = Calendar.ПЕТЪК;}
+            case SATURDAY -> { thisDay = Calendar.СЪБОТА;}
+            case SUNDAY -> { thisDay = Calendar.НЕДЕЛЯ;}
+        }
+
         return ("Денят е: " + timeOfToto.format(formatDate) + "\n" + "Днес е:  " + now.format(formatDate) + "\n"
                 + "До следващият тираж остават: "
-                + days + sDay + "(денят е: " + timeOfToto.getDayOfWeek() + ") "
+                + days + sDay + "(денят е: " + thisDay + ") "
                 + (hours + sHour + "и "
                 + (minutes + sMin))
                 + "\n");
