@@ -10,7 +10,7 @@ import java.util.*;
 
 public class TOTO extends TotoPoint {
 
-    // Необходими са: MainTOTO, TOTO и TotoPoint.
+    // Необходими са: MainTOTO, TOTO, Calendar и TotoPoint.
 
     // Нов начин за валидиране на входните масиви: isValidInputList() гетValidInputList();
     // Валидират се и стойносттите на "YOUR_SUPPOSE" и "OFFICIAL_RESULT"
@@ -22,10 +22,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 13, 11, 14, 20, 28, 36 ";                //  <-                          *
-    private final String OFFICIAL_RESULT = " 6, 15, 18, 23, 25, 39  ";              //   <-       *
-    private final String DATE_OF_LOTTERY = " 2023 02 23 18 45 ";                   //   <-                         *
-    private final int TODAY_CIRCULATION = 16;                                      //   <- Промени тук++:          *
+    private final String YOUR_SUPPOSE = " 9, 15, 31, 33, 39, 42 ";                 //  <-                          *
+    private final String OFFICIAL_RESULT = "  ";             //   <-       *
+    private final String DATE_OF_LOTTERY = " 2023 03 12 18 45 ";                   //   <-                         *
+    private final int TODAY_CIRCULATION = 21;                                      //   <- Промени тук++:          *
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
