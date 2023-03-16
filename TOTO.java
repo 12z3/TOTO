@@ -22,10 +22,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 9, 15, 31, 33, 39, 42 ";                 //  <-                          *
+    private final String YOUR_SUPPOSE = " 7, 10, 13, 29, 34, 35 ";                 //  <-                          *
     private final String OFFICIAL_RESULT = "  ";             //   <-       *
-    private final String DATE_OF_LOTTERY = " 2023 03 12 18 45 ";                   //   <-                         *
-    private final int TODAY_CIRCULATION = 21;                                      //   <- Промени тук++:          *
+    private final String DATE_OF_LOTTERY = " 2023 03 16 18 45 ";                   //   <-                         *
+    private final int TODAY_CIRCULATION = 22;                                      //   <- Промени тук++:          *
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -303,7 +303,7 @@ public class TOTO extends TotoPoint {
 
         //TODO: Валидирай Input!
 
-        System.out.print("\nТрябват ми резултата от последният тираж и твоя последен залог. " +
+        System.out.print("\nТрябва ми резултата от последният тираж и твоя последен залог. " +
                 "\nЩе въведеш резултата или да го търся?: ( i / s ): ");
 
         String answer = scanner.nextLine().trim();
@@ -317,10 +317,12 @@ public class TOTO extends TotoPoint {
         List<Integer> suppose;
         if (answer.equalsIgnoreCase("i")) {
             System.out.print("Въведи последният резултат от тиража: ");
-            resInput = scanner.nextLine();
+            resInput = scanner.nextLine().trim();
+//            if (resInput.equalsIgnoreCase("")) resInput = " Това което си въвел ";
             verificationA = isValidInputList(resInput);
             while (!verificationA) {
-                System.out.print("ЗаПри се Вихъре. -> " + resInput + " е грешно. " +
+//                if (resInput.equalsIgnoreCase(" ")) resInput = " Това което си въвел ";
+                System.out.print("ЗаПри се Вихъре. -> " + "\"" + resInput + "\"" + " е грешно. " +
                         "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
                         "\n" + "Дай пак: ");
                 resInput = scanner.nextLine();
@@ -330,10 +332,10 @@ public class TOTO extends TotoPoint {
             result = getValidInputList(resInput);
 
             System.out.print("Въведи твоят залог: ");
-            suppInput = scanner.nextLine();
+            suppInput = scanner.nextLine().trim();
             verificationB = isValidInputList(suppInput);
             while (!verificationB) {
-                System.out.print("ЗаПри се Вихъре. -> " + suppInput + " е грешно. " +
+                System.out.print("ЗаПри се Вихъре. -> " + "\"" + suppInput + "\"" + " е грешно. " +
                         "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
                         "\n" + "Дай пак: ");
                 suppInput = scanner.nextLine();
@@ -476,7 +478,7 @@ public class TOTO extends TotoPoint {
             LocalDateTime resultLDT = getLocalDateTime();
             //LocalDateTime resultLDT = getLocalDateTime();
             writer.write(
-                    Objects.requireNonNull(whenTotoTimeIs(resultLDT)));
+                    Objects.requireNonNull(whenIsTotoTime(resultLDT)));
 
 //            writer.newLine();
             writer.close();
@@ -505,7 +507,7 @@ public class TOTO extends TotoPoint {
         return LocalDateTime.of(year, month, dayOfMonth, hour, minute);
     }
 
-    public String whenTotoTimeIs(LocalDateTime timeOfToto) {
+    public String whenIsTotoTime(LocalDateTime timeOfToto) {
         DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd MMM yyyy, E - a- c 'ден:' HH:mm:ss ч ");
 
         LocalDateTime now = LocalDateTime.now();
