@@ -10,6 +10,7 @@ import java.util.*;
 
 public class TOTO extends TotoPoint {
 
+    // Анти SOLID class.....
     // Необходими са: MainTOTO, TOTO, Calendar и TotoPoint.
 
     // Нов начин за валидиране на входните масиви: isValidInputList() гетValidInputList();
@@ -22,10 +23,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 7, 10, 13, 29, 34, 35 ";                 //  <-                          *
+    private final String YOUR_SUPPOSE = " 6, 20, 25, 27, 39, 41 ";                 //  <-                          *
     private final String OFFICIAL_RESULT = "  ";             //   <-       *
-    private final String DATE_OF_LOTTERY = " 2023 03 16 18 45 ";                   //   <-                         *
-    private final int TODAY_CIRCULATION = 22;                                      //   <- Промени тук++:          *
+    private final String DATE_OF_LOTTERY = " 2023 03 19 18 45 ";                   //   <-                         *
+    private final int TODAY_CIRCULATION = 23;                                      //   <- Промени тук++:          *
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
