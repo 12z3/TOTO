@@ -23,10 +23,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 6, 20, 25, 27, 39, 41 ";                 //  <-                          *
+    private final String YOUR_SUPPOSE = " 12, 19, 23, 33, 36, 43 ";                 //  <-                          *
     private final String OFFICIAL_RESULT = "  ";             //   <-       *
-    private final String DATE_OF_LOTTERY = " 2023 03 19 18 45 ";                   //   <-                         *
-    private final int TODAY_CIRCULATION = 23;                                      //   <- Промени тук++:          *
+    private final String DATE_OF_LOTTERY = " 2023 03 26 18 45 ";                   //   <-                         *
+    private final int TODAY_CIRCULATION = 25;                                      //   <- Промени тук++:          *
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -128,8 +128,8 @@ public class TOTO extends TotoPoint {
                 verification = isValidInputList(input);
             }
         }
-        this.result = getValidInputList(input);
-        return this.result;
+        this.result = getValidInputList(input);        // Докато не въведеш валиден вход няма да стигнеш до тук....
+        return this.result;                            // ??? Защо пак проверяваш с този метод входа, а не го взимаш...
     }
 
     //TODO: Замества методите: "isNotAString{isNotAString, isDoubleDigits}"
