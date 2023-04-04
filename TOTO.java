@@ -23,10 +23,10 @@ public class TOTO extends TotoPoint {
      * Твоят залог: 1, 7, 22, 23, 37, 43 / 23.12.2022 06:14
      */
 
-    private final String YOUR_SUPPOSE = " 12, 19, 23, 33, 36, 43 ";                 //  <-                          *
+    private final String YOUR_SUPPOSE = " 4, 7, 15, 39, 47, 48 ";                 //  <-                          *
     private final String OFFICIAL_RESULT = "  ";             //   <-       *
-    private final String DATE_OF_LOTTERY = " 2023 03 26 18 45 ";                   //   <-                         *
-    private final int TODAY_CIRCULATION = 25;                                      //   <- Промени тук++:          *
+    private final String DATE_OF_LOTTERY = " 2023 04 6 18 45 ";                   //   <-                         *
+    private final int TODAY_CIRCULATION = 28;                                      //   <- Промени тук++:          *
     private int CIRCULATION = TODAY_CIRCULATION;
     private List<Integer> result = new ArrayList<>();
     private List<Integer> yourSuppose = new ArrayList<>();
@@ -111,7 +111,7 @@ public class TOTO extends TotoPoint {
             input = scanner.nextLine();
             verification = isValidInputList(input);
             while (!verification) {
-                System.out.print("ЗаПри се Вихъре. -> " + input + " е грешно. " +
+                System.out.print("ЗаПри се Вихъре. -> " + "\"" + input + "\"" + " е грешно. " +
                         "Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39" +
                         "\n" + "Дай пак: ");
                 input = scanner.nextLine();
@@ -121,7 +121,8 @@ public class TOTO extends TotoPoint {
             input = this.OFFICIAL_RESULT;
             verification = isValidInputList(input);
             while (!verification) {
-                System.out.print("- Стойността по подразбиране на 'OFFICIAL_RESULT' -> " + input + " е грешна." +
+                System.out.print("- Стойността по подразбиране на \"OFFICIAL_RESULT\" ->" +
+                        " " + "\"" + input + "\"" + " е грешна." +
                         " Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39 " +
                         "\n- Въведи нова: ");
                 input = scanner.nextLine();
@@ -218,6 +219,7 @@ public class TOTO extends TotoPoint {
 
         System.out.printf("%s", "Вариантите са три: ");
         tmp = getFinalListOfNumbers();                                           // от TotoPoint.java
+        this.variants = generateUniqueList(tmp);
 
         // TODO: Има Още какво да се желае.
 //        this.variants = generateUniqueList(tmp);
@@ -236,13 +238,15 @@ public class TOTO extends TotoPoint {
         }
 
         switch (yourVariantChoice) {
-            case "1" -> this.variantResult = generateUniqueList(tmp).get(0);
-            case "2" -> this.variantResult = generateUniqueList(tmp).get(1);
-            case "3" -> this.variantResult = generateUniqueList(tmp).get(2);
+            case "1" -> this.variantResult = tmp.get(0);
+            case "2" -> this.variantResult = tmp.get(1);
+            case "3" -> this.variantResult = tmp.get(2);
         }
+
         Collections.sort(this.variantResult);
         System.out.println("Избрал си: " + this.variantResult.toString() + "\n");
         this.yourSuppose = this.variantResult;
+        //this.variants = tmp;
         return true;
     }
 
@@ -289,7 +293,7 @@ public class TOTO extends TotoPoint {
         Collections.sort(this.result);
         Collections.sort(this.yourSuppose);
         System.out.printf("Резултата от последният тираж (%d) е:  %s \n" +
-                        "Залогът, който си избрал е вариант %s: %s ",
+                        "Залогът, който си избрал е вариант %s:  %s  ",
                 this.CIRCULATION - 1, this.result, this.yourVariantChoice, this.yourSuppose);
     }
 
@@ -347,7 +351,8 @@ public class TOTO extends TotoPoint {
             resInput = this.OFFICIAL_RESULT;
             verificationC = isValidInputList(resInput);
             while (!verificationC) {
-                System.out.print("- Стойността по подразбиране на 'OFFICIAL_RESULT' -> " + resInput + " е грешна." +
+                System.out.print("- Стойността по подразбиране на \"OFFICIAL_RESULT\" -> "
+                        + "\"" + resInput + "\"" + " е некоректна." +
                         " Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39 " +
                         "\n- Въведи нова: ");
                 resInput = scanner.nextLine();
@@ -358,7 +363,8 @@ public class TOTO extends TotoPoint {
             suppInput = this.YOUR_SUPPOSE;
             verificationD = isValidInputList(suppInput);
             while (!verificationD) {
-                System.out.print("- Стойността по подразбиране на 'YOUR_SUPPOSE' -> " + suppInput + " е грешна." +
+                System.out.print("- Стойността по подразбиране на \"YOUR_SUPPOSE\" ->" + "\""
+                        + suppInput + "\"" + "е некоректна." +
                         " Трябва да бъде нещо от сорта: 6, 15, 18, 23, 25, 39 " +
                         "\n- Въведи нова: ");
                 suppInput = scanner.nextLine();
@@ -465,14 +471,14 @@ public class TOTO extends TotoPoint {
 
             // writer.write(String.valueOf(timeAndData()));
             writer.newLine();
-            writer.write("Предложения за залог - " + this.CIRCULATION + " тираж: \n");
+            writer.write("Предложения за залог за " + this.CIRCULATION +"-и"+" тираж: \n");
             for (List<Integer> el : variants) {
                 writer.write(el.toString() + "\n");
             }
             writer.append("----------------------------------------------" + "\n");
             writer.write("Избрал си вариант " + this.yourVariantChoice + ": " +
                     this.yourSuppose.toString() + "\n"
-                    + "Последен тираж " + (this.CIRCULATION - 1) + ":    " + lastResult.toString() + "\n");
+                    + "Последен тираж " + (this.CIRCULATION - 1) + "-и" + ": " + lastResult.toString() + "\n");
             writer.append("----------------------------------------------" + "\n");
 //            writer.newLine();
 
@@ -529,14 +535,28 @@ public class TOTO extends TotoPoint {
         if (minutes == 1) sMin = " минута ";
 
         Calendar thisDay = null;
-        switch (timeOfToto.getDayOfWeek()){
-            case MONDAY -> { thisDay = Calendar.ПОНЕДЕЛНИК;}
-            case TUESDAY -> { thisDay = Calendar.ВТОРНИК;}
-            case WEDNESDAY -> { thisDay = Calendar.СРЯДА;}
-            case THURSDAY -> { thisDay = Calendar.ЧЕТВЪРТЪК;}
-            case FRIDAY -> { thisDay = Calendar.ПЕТЪК;}
-            case SATURDAY -> { thisDay = Calendar.СЪБОТА;}
-            case SUNDAY -> { thisDay = Calendar.НЕДЕЛЯ;}
+        switch (timeOfToto.getDayOfWeek()) {
+            case MONDAY -> {
+                thisDay = Calendar.ПОНЕДЕЛНИК;
+            }
+            case TUESDAY -> {
+                thisDay = Calendar.ВТОРНИК;
+            }
+            case WEDNESDAY -> {
+                thisDay = Calendar.СРЯДА;
+            }
+            case THURSDAY -> {
+                thisDay = Calendar.ЧЕТВЪРТЪК;
+            }
+            case FRIDAY -> {
+                thisDay = Calendar.ПЕТЪК;
+            }
+            case SATURDAY -> {
+                thisDay = Calendar.СЪБОТА;
+            }
+            case SUNDAY -> {
+                thisDay = Calendar.НЕДЕЛЯ;
+            }
         }
 
         return ("Денят е: " + timeOfToto.format(formatDate) + "\n" + "Днес е:  " + now.format(formatDate) + "\n"
