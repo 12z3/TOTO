@@ -10,11 +10,17 @@ public class MainTOTO extends Methods {
         TOTO totoTMP = new TOTO();
         try {
             totoTMP.play();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e);
         }
-
         long end = getEndTime(start);
-        System.out.print("Compile Time: " + (end - start) / 6000 + "s");
+        long thisTime = (end - start) / 1_000_000_000;
+
+        if (thisTime < 60) {
+            System.out.print("Compile Time: " + thisTime + " s");
+        } else if (thisTime > 60 && thisTime < 3600) {
+            thisTime /= 60;
+            System.out.print("Compile Time: " + thisTime + " min");
+        }
     }
 }
