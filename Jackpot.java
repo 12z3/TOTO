@@ -17,7 +17,7 @@ public class Jackpot extends getResult {
         Scanner scanner = new Scanner(System.in);
 
         int choices = 3, counting = 6;
-        List<Integer> officialResult = Arrays.asList(23, 26, 27, 31, 38, 47);
+        List<Integer> officialResult = Arrays.asList(6, 13, 20, 23, 30, 45);
         String validatedAnswer = choice(scanner);
 
         if (validatedAnswer.equalsIgnoreCase("P")) {
@@ -31,7 +31,7 @@ public class Jackpot extends getResult {
     }
 
     private static String choice(Scanner scanner) {
-        System.out.print("Играем или Проверяваме (P / C) или (Е) за изход: ");
+        System.out.print("Играем, Проверяваме (P / C) или (Е) за изход: ");
         String answer = scanner.nextLine();
         return validatedAnswers(answer, "P", "C", "E");
     }
@@ -124,7 +124,7 @@ public class Jackpot extends getResult {
     private static boolean saveInFile(List<List<Integer>> res, List<Integer> official) throws IOException {
         boolean exit = false;
         Scanner scanner = new Scanner(System.in);
-        File file = new File("tResN1.txt");
+        File file = new File("/Users/blagojnikolov/Library/Mobile Documents/com~apple~CloudDocs/TOTO/tResN.txt");
         boolean doDelete;
 
         System.out.print("Да се запазят ли предишните резултати (Y / N) или (E) за изход: ");
@@ -145,7 +145,7 @@ public class Jackpot extends getResult {
     private static void writer(List<List<Integer>> res, List<Integer> official, File file, boolean doDelete)
             throws IOException {
 
-        File fileArc = new File("archive1.txt");
+        File fileArc = new File("archive.txt");
         FileWriter writer = new FileWriter(file, doDelete);
         FileWriter writerArc = new FileWriter(fileArc, doDelete);
 
@@ -197,11 +197,13 @@ public class Jackpot extends getResult {
             drawDay = "Четвъртък";
             nextDrawDay = "Неделя";
         } else if (thisDay < drawDays[0]) {
-            leftDays = (thisDay + 1) - drawDays[0];
+            leftDays = drawDays[0] - thisDay;
             drawDay = "Четвъртък";
+            leftDaysToNext = leftDays;
         } else if (thisDay > drawDays[0] && thisDay < drawDays[1]) {
-            leftDays = (thisDay + 1) - drawDays[1];
+            leftDays = drawDays[1] - thisDay;
             drawDay = "Неделя";
+            leftDaysToNext = leftDays;
         } else if (thisDay == drawDays[1]) {
             leftDays = 0;
             leftDaysToNext = 3;
@@ -217,7 +219,7 @@ public class Jackpot extends getResult {
                 ". Остават " + Math.abs(leftDays) + printDay);
 
         String resStrB = (thisDayStr + " e." + " Ден за ПЕЧАЛБИ!  ;) \n" + "До следващият тираж остават: "
-        + leftDaysToNext + " дни (" + nextDrawDay + ")." );
+                + leftDaysToNext + " дни (" + nextDrawDay + ").");
 
         resStr = (leftDays == 0) ? resStrB : resStrA;
         return resStr;
@@ -270,7 +272,7 @@ public class Jackpot extends getResult {
         day = (days == 1) ? " ден." : " дни.";
 
         resultA = (thisDay + " e." + " Ден за ПЕЧАЛБИ!  ;) \n" + "До следващият тираж остават: "
-                + days + " дни (" + nextDrawDay + ")." );
+                + days + " дни (" + nextDrawDay + ").");
 
         resultB = ("Днес е " + thisDay + ", следващият тираж е в " + nextDrawDay +
                 ". Остават " + days + day);
