@@ -8,14 +8,14 @@ import java.util.*;
 public class getResult {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         String data = readFromFile();
-        if (data.equalsIgnoreCase("-1")) return;
-
-        System.out.println(parsToInt(getLastLine(data)));
+        if (!data.equalsIgnoreCase("-1") || data != null) {
+            System.out.println(parsToInt(getLastLine(data)));
+        }
     }
 
     static String readFromFile() throws FileNotFoundException {
-        File input = new File("/Users/blagojnikolov/IdeaProjects/inTime/archive1.txt");
-        if (!input.exists()) {
+        File input = new File("/Users/blagojnikolov/IdeaProjects/inTime/archive.txt");
+        if (!input.exists() || input.length() == 0) {
             System.out.println("No such file or directory");
             return "-1";
         }
