@@ -17,7 +17,7 @@ public class Jackpot extends getResult {
         Scanner scanner = new Scanner(System.in);
 
         int choices = 3, counting = 6;
-        List<Integer> officialResult = Arrays.asList(6, 13, 20, 23, 30, 45);
+        List<Integer> officialResult = Arrays.asList(11, 17, 18, 20, 32, 47);
         String validatedAnswer = choice(scanner);
 
         if (validatedAnswer.equalsIgnoreCase("P")) {
@@ -145,7 +145,8 @@ public class Jackpot extends getResult {
     private static void writer(List<List<Integer>> res, List<Integer> official, File file, boolean doDelete)
             throws IOException {
 
-        File fileArc = new File("archive.txt");
+        File fileArc = new File(
+                "/Users/blagojnikolov/Library/Mobile Documents/com~apple~CloudDocs/TOTO/archive.txt");
         FileWriter writer = new FileWriter(file, doDelete);
         FileWriter writerArc = new FileWriter(fileArc, doDelete);
 
