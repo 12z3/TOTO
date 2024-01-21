@@ -14,7 +14,8 @@ public class getResult {
     }
 
     static String readFromFile() throws FileNotFoundException {
-        File input = new File("/Users/blagojnikolov/IdeaProjects/inTime/archive.txt");
+        File input = new File(
+                "/Users/blagojnikolov/Library/Mobile Documents/com~apple~CloudDocs/TOTO/archive.txt");
         if (!input.exists() || input.length() == 0) {
             System.out.println("No such file or directory");
             return "-1";
@@ -57,7 +58,8 @@ public class getResult {
         List<Integer> tmpInt;
 
         for (List<String> strings : input) {
-            for (String string : strings) arr = string.trim().split(", ");
+            //for (String string : strings) arr = string.trim().split(", ");
+            arr = strings.get(0).trim().split(", ");
             tmpInt = new ArrayList<>();
             for (String literal : arr) tmpInt.add(Integer.parseInt(literal));
             resToInt.add(tmpInt);
