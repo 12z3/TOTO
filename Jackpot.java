@@ -17,7 +17,7 @@ public class Jackpot extends getResult {
         Scanner scanner = new Scanner(System.in);
 
         int choices = 3, counting = 6;
-        List<Integer> officialResult = Arrays.asList(11, 17, 18, 20, 32, 47);
+        List<Integer> officialResult = Arrays.asList(1, 5, 21, 34, 40, 42);
         String validatedAnswer = choice(scanner);
 
         if (validatedAnswer.equalsIgnoreCase("P")) {
@@ -191,7 +191,6 @@ public class Jackpot extends getResult {
             if (days[i].equalsIgnoreCase(thisDayStr)) thisDay = i;
         }
 
-        // TODO: Много е съмнителна логиката.
         if (thisDay == drawDays[0]) {
             leftDays = 0;
             leftDaysToNext = 3;
