@@ -28,7 +28,7 @@ public class bsInto2D {
 		LocalDateTime ldt = LocalDateTime.now();
 		DateTimeFormatter formater = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
 		String currentTime = ldt.format(formater);
-		File file = new File("");
+		File file = new File( currentTime + ".txt");
 		FileWriter writer = new FileWriter(file);
 
 		List<List<Integer>> matches = new ArrayList<>();
