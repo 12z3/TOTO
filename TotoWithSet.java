@@ -16,10 +16,8 @@ public class TotoWithSet {
 	//       генерирай масива ;) (Разпределението на std във времето го имаш.)
 	//       С LabView си генерирай файла и дерзай.
 
-	// todo: Помисли за оптимизация на търсенето, най-малкото bs ти е под ръка. Че е меко казано грозно в този си вид.
-
 	private final int matchedSums = 9;
-	private final double std = 11;
+	private final double std = 7; // 10
 
 	public static void main(String[] args) throws IOException {
 		new TotoWithSet().play();
@@ -29,7 +27,7 @@ public class TotoWithSet {
 	private void play() throws IOException {
 //		List<List<Integer>> suppose = digitsGenerator(3);
 //		printRes(suppose);
-		List<Integer> officialRes = new ArrayList<>(List.of(13, 17, 23, 30, 34, 48));
+		List<Integer> officialRes = new ArrayList<>(List.of(2, 12, 20, 23, 34, 45));
 		double officialRsStd = stdOfRow(officialRes);
 		System.out.println(officialRes);
 
@@ -168,6 +166,18 @@ public class TotoWithSet {
 		return Math.sqrt(avrSums / row.size());
 	}
 
+	// Оптимизиран метод за изчисляване на стандартното отклонение:
+	private static double optimizedStdOfRow(List<Integer> row) {
+		double sum = 0;
+		double squaredSum = 0;
+		for (int el : row) {
+			sum += el;
+			squaredSum += el * el;
+		}
+		double mean = sum / row.size();
+		return Math.sqrt((squaredSum / row.size()) - (mean * mean));  // Variance = (1/N)*SuMi(Xi*Xi) - (avrXi*avrXi)
+	}
+
 	private static void TestStd(List<List<Integer>> tmp) {
 		System.out.print("Stds: ");
 		for (int i = 0; i < tmp.size(); i++) {
@@ -302,7 +312,6 @@ public class TotoWithSet {
 
 		while (s <= e) {
 			m = s + (e - s) / 2;
-
 			if (arr[m] == target) {
 				return m;
 			} else if (arr[m] < target) {
