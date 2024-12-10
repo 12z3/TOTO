@@ -1,5 +1,7 @@
 package dynamicsStructure.Jackpot;
 
+import dynamicsStructure.Jackpot.File.readResFromFile;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -17,10 +19,10 @@ public class TotoWithSet extends readResFromFile {
     //       генерирай масива ;) (Разпределението на std във времето го имаш.)
     //       С LabView си генерирай файла и дерзай.
 
-    private final int matchedSums = 10;
-    private final double std = 10.5;
+    private final int matchedSums = 9;
+    private final double std = 12.00;
     private final List<Integer> officialRes =
-            getResFromFile("/Users/blagojnikolov/Desktop/@tmp/fromSite.txt");
+            getResFromFile("");
 
     public TotoWithSet() throws FileNotFoundException {
     }
