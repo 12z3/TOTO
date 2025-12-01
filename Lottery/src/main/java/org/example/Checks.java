@@ -563,16 +563,16 @@ public class Checks {
      * {12=1, 34=2, 47=4}
      * </pre>
      *
-     * @param suppose     списък от комбинации за проверка
+     * @param proposals     списък от комбинации за проверка
      * @param officialRes официалната изтеглена комбинация (6 числа)
      */
-    static void checkAndPrint(List<List<Integer>> suppose, List<Integer> officialRes) {
+    static void checkAndPrint(List<List<Integer>> proposals, List<Integer> officialRes) {
         final int SPACES = 6;
         final int TOTAL_LENGTH = 9;
         int cntMatch;
         Map<Integer, Integer> digitIdx;
 
-        for (List<Integer> row : suppose) {
+        for (List<Integer> row : proposals) {
             Print.printList(officialRes);
             // 3 15 24 27 31 35 -> 31524273135.length()
             String tmpStr1 = officialRes.toString()
