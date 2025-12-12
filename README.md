@@ -1,1 +1,1 @@
-Frequency.java
+Histogram.java
