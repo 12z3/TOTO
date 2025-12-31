@@ -1,1 +1,1 @@
-XYGraph.java
+ProfitPlot.java
