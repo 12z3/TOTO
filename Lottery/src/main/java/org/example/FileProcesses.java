@@ -65,6 +65,7 @@ public class FileProcesses {
 	public static void main(String[] args) {
 //		List<String> data = readFromFile("/Users/blagojnikolov/Desktop/@tmp/officialToto.txt");
 //		System.out.println(findingNewDraw(data));
+		System.out.println(getJFilePath(101));
 	}
 
 	/**
@@ -147,7 +148,8 @@ public class FileProcesses {
 					cnt++;
 				}
 				if (isFileNameCorrect(thisFile.getName())) {
-					idxSupposes.put(Integer.parseInt(thisFile.getName().substring(0, 2)), list);
+					int dashIdx = thisFile.getName().indexOf("-");
+					idxSupposes.put(Integer.parseInt(thisFile.getName().substring(0, dashIdx)), list);
 				} else {
 					System.out.println("404: Името на файла\"" +
 							thisFile.getName() + "\"  НЕ започва с номера на тиража ...");
@@ -282,7 +284,7 @@ public class FileProcesses {
 					if ((rowCounter % ROW_OFFSET == 0) && !line.contains("\t\t\t")) {
 						String[] tmp = line.trim().split("\t");
 						// Проверка дали е число или дата:
-						if (tmp[0].length() < MAX_NUMBER_LENGTH) {
+						if (tmp[0].length() <= MAX_NUMBER_LENGTH) {
 							idx = Integer.parseInt(tmp[0]);
 							numIsGet = true;
 							cnt++;
@@ -347,7 +349,8 @@ public class FileProcesses {
 		for (String path : paths) {
 			int idx;
 			int slashIdx = path.lastIndexOf("/");
-			String x = path.substring(slashIdx + 1, slashIdx + 3);
+			int dashIdx = path.indexOf("-");
+			String x = path.substring(slashIdx + 1, dashIdx); // .....  /19- .... -> 19
 			try {
 				idx = Integer.parseInt(x);
 				if (idx == drawIdx) return path.substring(slashIdx + 1);
