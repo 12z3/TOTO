@@ -192,7 +192,6 @@ public class Write {
             if (!Checks.isDataContainedInTheFile(filePath, data)) {
                 toFile = new File(filePath);
                 FileWriter writer = new FileWriter(toFile, append);
-
                 writer.write(data);
                 writer.write("\n");
                 writer.close();
