@@ -101,10 +101,10 @@ public class MissingIdx {
 	 */
 	static List<String> missingDrawIdx(List<String> siteData, String siteName) {
 		List<String> drawDataFromBgTotoSite = Date.createdDayDrawString("-");
-		List<String> drawData49Site = ParseURL.parseToto49URL();
+		List<String> drawData49Site = ParseURL.parseToto49URL();                    // от сайт toto49 - fromSite.txt"
 
-		List<String> bgTotoDBFromFile = ParseURL.readDB(bgTotoOrgFile);
-		List<String> toto49DBFromFile = ParseURL.readDB(toto49File);
+		List<String> bgTotoDBFromFile = ParseURL.readDB(bgTotoOrgFile);             // bgTotoFromSite.txt
+		List<String> toto49DBFromFile = ParseURL.readDB(toto49File);                // пази резултатите от toto49
 
 		List<Integer> bgTotoMissingIdx = Checks.bgTotoMissing(siteData);
 		List<Integer> toto49MissingIdx = Checks.toto49Missing(siteData);
