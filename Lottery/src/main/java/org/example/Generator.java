@@ -63,14 +63,16 @@ import static org.example.Frequency.countMatches;
  */
 public class Generator {
     public static void main(String[] args) {
-        List<int[]> data = Frequency.filteringDrawsByWeekday("sunday", false);
-        System.out.println(countMatches(data) + "\n" + data.size());
+//        List<int[]> data = Frequency.filteringDrawsByWeekday("sunday", false);
+//        System.out.println(countMatches(data) + "\n" + data.size());
+//
+//        Date.allDrawDateAndDayForYear();
+//
+//        for (List<Integer> line : ofNewProposalListOfFrequencyMatches()) {
+//            System.out.println(line);
+//        }
 
-        Date.allDrawDateAndDayForYear();
-
-        for (List<Integer> line : ofNewProposalListOfFrequencyMatches()) {
-            System.out.println(line);
-        }
+        newProposal();
     }
 
     /**
