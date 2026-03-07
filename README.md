@@ -1,1 +1,1 @@
-Frequency.java
+Generator.java
