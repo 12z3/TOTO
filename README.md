@@ -1,1 +1,1 @@
-Generator.java
+Capcha.java
