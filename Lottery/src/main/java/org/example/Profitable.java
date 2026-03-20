@@ -19,19 +19,12 @@ public class Profitable {
 	private String four;
 	private String tree;
 
-
 	//todo: ✅ 13.07.25 - Обмисли класа как да ги имплементираш
 	//                     Трябва ти метод който намира кои числа се срещат 1 път, 2 път, 3 пъти и т.н.
 
 	public static void main(String[] args) throws IOException {
 
-		List<Element> urls = profitUrl();
-        for (Element el : urls) System.out.println(el.absUrl("href"));
-		System.out.println();
-
-		Map<String, String> data = profitableSeries(urls);
-        for (Map.Entry<String,String> entry: data.entrySet())
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+		System.out.println(getLastOfficialProfitInfo());
 
 //		printStatisticProfitableInfo(data, 21, 15);
 //
@@ -41,13 +34,13 @@ public class Profitable {
 //			System.out.println(entry.getKey() + ": " + "\n" + entry.getValue());
 //		}
 //
-//		System.out.println(totalProfitDraw(allProfitInfo(profitUrl())));
-//		plotProfitStd();
+		System.out.println(totalProfitDraw(allProfitInfo(profitUrl())));
+		plotProfitStd();
 
 //		List<Double> std = getStdFromProfitSeries(data);
 //		std.forEach(System.out::println);
-		Print.profitInfo();
-        Print.lastDrawProfitInfo(getLastOfficialProfitInfo());
+//		Print.profitInfo();
+//        Print.lastDrawProfitInfo(getLastOfficialProfitInfo());
 	}
 
 	/**
@@ -71,14 +64,55 @@ public class Profitable {
 		try {
 			Document doc = Jsoup.connect("https://info.toto.bg/results/6x49").get();
 			// Намиране на <li class="disabled"> и вътрешните <a> тагове
+
 			Elements urlList = doc.select("ul.dropdown-menu-right li a");
 			//profitableURL.add(el.absUrl("href"));
 			profitableURL.addAll(urlList);
 		} catch (IOException e) {
-			System.out.println("Няма достъп до сайта: https://info.toto.bg/results/6x49");
+			System.out.println("Няма достъп до сайта: https://info.toto.bg/results/6x49" + "\n");
 		}
 		return profitableURL;
 	}
+
+	static List<Element> profitUrl1() {
+		final String url = "https://info.toto.bg/results/6x49";
+		final String ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+
+		try {
+			Document doc = Jsoup.connect(url)
+					.userAgent(ua)
+					.referrer("https://www.google.com/")
+					.header("Accept-Language", "bg-BG,bg;q=0.9,en-US;q=0.8,en;q=0.7")
+					.timeout(15_000)
+					.followRedirects(true)
+					.get();
+
+			if (isCaptchaPage(doc)) {
+				System.err.println("❌ Върната е CAPTCHA страница (title=" + doc.title() + ")");
+				return List.of();
+			}
+
+			// по-стабилно: взимаме всички линкове от това меню, без „disabled“
+			Elements urlList = doc.select("ul.dropdown-menu-right li:not(.disabled) a[href]");
+			return new ArrayList<>(urlList);
+
+		} catch (IOException e) {
+			System.err.println("❌ Няма достъп до сайта: " + url);
+			return List.of();
+		}
+	}
+
+	private static boolean isCaptchaPage(Document page) {
+		String title = page.title();
+		if (title != null && title.toLowerCase(Locale.ROOT).contains("captcha")) return true;
+
+		String html = page.outerHtml();
+		return html.contains("Radware Page Verifying your browser")
+				|| html.contains("Radware Captcha Page")
+				|| html.contains("captcha.perfdrive.com")
+				|| html.contains("cdn.perfdrive.com");
+	}
+
 
 	/**
 	 * Извлича печелившите числа от всеки линк към конкретен тираж.
@@ -104,7 +138,7 @@ public class Profitable {
 	 * @return Сортирана (по дата) map структура, където ключът е датата на тиража, а стойността — печелившите числа.</li>
 	 */
 	static Map<String, String> profitableSeries(List<Element> profitableURLList) {
-		Map<String, String> dateDrow = new TreeMap<>();
+		Map<String, String> dateDrow = new LinkedHashMap<>();
 		try {
 			for (Element url : profitableURLList) {
 				String thisUrl = url.absUrl("href");
@@ -114,8 +148,8 @@ public class Profitable {
 				dateDrow.put(date.text(), draw.text());
 			}
 		} catch (IOException e) {
-			System.out.println("Няма достъп до сайта: https://info.toto.bg/results/6x49");
-			System.out.println("Не мога да извлека печелившите числа");
+			System.out.println("❌ Няма достъп до сайта: https://info.toto.bg/results/6x49");
+			System.out.println("❌ Не мога да извлека печелившите числа");
 		}
 		return dateDrow;
 	}
@@ -241,6 +275,7 @@ public class Profitable {
 							" Не мога да парсна числото: " + s);
 				}
 			}
+			System.out.println();
 			intSeries.add(tmpInt);
 		}
 		return intSeries;
@@ -331,7 +366,8 @@ public class Profitable {
 	}
 
 	static List<List<Double>> newDataList() {
-		Map<String, String> data = profitableSeries(profitUrl());
+		List<Element> urls = profitUrl();
+		Map<String, String> data = profitableSeries(urls);
 		List<List<Integer>> list = extractDigitSeries(data);
 
 		List<List<Double>> tmpD = new ArrayList<>();
@@ -347,7 +383,8 @@ public class Profitable {
 	}
 
 	static void plotProfitStd() {
-		Map<String, String> data = profitableSeries(profitUrl());
+		List<Element> urls = profitUrl();
+		Map<String, String> data = profitableSeries(urls);
 		List<Double> std = getStdFromProfitSeries(data);
 		List<Double> x = new ArrayList<>();
 		for (int i = 0; i < std.size(); i++) {
@@ -369,8 +406,12 @@ public class Profitable {
 	}
 
 	static List<String> profitInformation() {
-		Map<String, String> profitSeries = profitableSeries(profitUrl());
-		Map<String, String> allProfitSeries = allProfitInfo(profitUrl());
+		List<Element> urls = profitUrl();
+
+		if (urls.isEmpty()) {return List.of();}
+
+		Map<String, String> profitSeries = profitableSeries(urls);
+		Map<String, String> allProfitSeries = allProfitInfo(urls);
 		List<Double> std = getStdFromProfitSeries(profitSeries);
 		List<Double> mean = getMeanFromProfitSeries(profitSeries);
 		List<String> list = new ArrayList<>();
@@ -400,12 +441,13 @@ public class Profitable {
 		return list;
 	}
 
-    protected static String getLastOfficialProfitInfo(){
-        try {
-            String res = profitInformation().getLast();
-            return res;
-        } catch (Exception e) {
-           return "WiFi ERROR.";
-        }
-    }
+	protected static String getLastOfficialProfitInfo() {
+		try {
+			List<String> profitInfo = profitInformation();
+			Collections.sort(profitInfo);
+				return profitInformation().getFirst();
+		} catch (Exception e) {
+			return "CAPTCHA or WiFi ERROR.\n";
+		}
+	}
 }
